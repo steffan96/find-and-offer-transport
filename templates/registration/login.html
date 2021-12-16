@@ -1,15 +1,40 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+<!--
+<a href="{% url 'social:begin' 'google-oauth2' %}" 
+class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
+-->
 
-{% block title %}Log in{% endblock %}
 
+{% block title %} <title>Prijavi se</title> {% endblock %}
 {% block content %}
-
-<h2 class="m-2">Log in</h2>
-
-<form action="" method="post" class="m-3">
-    {% csrf_token %}
-    {{  form.as_p  }}
-    <button class='btn btn-success m-2' type="submit">Log in</button>
-</form>
+<div class="is-flex is-justify-content-center is-align-content-center">
+<div class="login-container">
+<div class="field m-3">
+  <p class="control has-icons-left has-icons-right">
+    <input class="input" type="email" placeholder="Email">
+    <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+    <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+  </p>
+</div>
+<div class="field m-3">
+  <p class="control has-icons-left">
+    <input class="input" type="password" placeholder="Password">
+    <span class="icon is-small is-left">
+      <i class="fas fa-lock"></i>
+    </span>
+  </p>
+</div>
+<div class="field m-3 is-justify-content-center">
+  <p class="control">
+    <button class="button is-success">
+      Login
+    </button>
+  </p>
+</div>
+</div>
+</div>
 {% endblock %}

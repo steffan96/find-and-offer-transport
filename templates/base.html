@@ -1,24 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
     {% load static %}
+    {% load bulma_tags %}
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}<title></title>{% endblock %}
+    <link rel="stylesheet" href="{% static 'bulma/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    
 
-    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
 
-    {% block title %}<title>Document</title>{% endblock %}
-      
-
+  
+  <div class="navbar-start">
+    <div class="navbar-item">
+      <div class="buttons"></div>
+        <a class="button is-light" href="{% url 'pages:home' %}">
+            <strong>Home</strong>
+          </a>
+    </div>
+  </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          
+          <a class="button is-light" href="{% url 'users:signup' %}">
+            <strong>Registracija</strong>
+          </a>
+          <a class="button is-primary" href="{% url 'login' %}">
+            Prijavi se
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 </head>
-<body>
-    {% block content %}
+
+   
+  <body>
 
 
 
+
+{% block content %}
 {% endblock %}
 </body>
 </html>
+
+
+
+    
+
 
 
