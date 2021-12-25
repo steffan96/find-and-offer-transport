@@ -24,7 +24,7 @@ from django.utils.encoding import force_bytes
 class SignUpView(SuccessMessageMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'registration/signup.html'
     success_message = "Uspješno ste kreirali profil!"
 
     def form_valid(self, form):

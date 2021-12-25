@@ -8,7 +8,8 @@ from .views import (
     PostDeleteView, 
     LookingCreateView, 
     HomePageView,
-    like_dislike,)
+    like_dislike,
+    AddCommentView,)
 
 
 urlpatterns = [
@@ -18,7 +19,8 @@ urlpatterns = [
     path('looking_new/', LookingCreateView.as_view(), name='looking_new'),
     path('<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     path('', HomePageView.as_view(), name='home'),
-    path('<int:post_id>/<int:user_preference>/', like_dislike, name='like_dislike')
+    path('<int:post_id>/<int:user_preference>/', like_dislike, name='like_dislike'),
+    path('<int:pk>/comment/', AddCommentView.as_view(), name='add_comment'),
 ]
 
 app_name = 'posts'

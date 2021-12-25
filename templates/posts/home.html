@@ -8,6 +8,7 @@
 {% block content %}
 
 
+
 <div class="field has-addons">
     <div class="control m-1" style="margin-right: 5px;">
         <input class="input is-inline" type="text" placeholder="Ime grada/opštine">
@@ -25,13 +26,15 @@
             <div class="right floated meta is-inline-block">
                 <div class="ui grid">
                     <div class="row">
+                        {% if request.user == obj.author %}
                         <a href="{% url 'posts:post_update' obj.pk %}"><button
                                 class="ui button bwhite-lg ">Promijeni</button></a>
                         <a href="{% url 'posts:post_delete' obj.pk %}"><button class="ui button bwhite-lg ">Obriši</button></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            <img class="ui avatar image" src="/media/{{user.image}}" >
+            <img class="ui avatar image" src="/media/{{obj.author.image}}" >
             <p class="is-inline-block" style="font-weight: bold;">{{obj.author.first_name}}&nbsp;{{obj.author.last_name}}</p>
         </div>
         <div class="content">
@@ -43,6 +46,7 @@
                     href="{% url 'posts:post_detail' obj.pk %}"> {{ obj.title }}</a> </p>
             <p style="white-space:wrap; inline-size: 350px; overflow-wrap: break-word;">{{obj.body}}</p>
             <div class="right floated">
+                
                 {% if user not in obj.users_liked.all %}
                 <div class='like-form is-inline-block'>
                         <a class="button is-primary" href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=1 %}">Like</a>
@@ -58,7 +62,9 @@
                     </div>
                 {% else %}
                 <div class='like-form is-inline-block'>
-                        <a class="button is-danger" href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=2 %}">Unlike</a>
+                        <a class="button is-danger" 
+                        href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=2 %}"
+                        >Unlike</a>
                    
                     <!-- <div class="ui grid">
                            <div class="column">
@@ -75,33 +81,38 @@
                <span> {{ obj.num_comments }} comments</span>-->
         </div>
         <div class="extra content">
-            <div class="mb-5">
-
-            </div>
-            <button class="cmt_btn ui button mb-5">show / hide comments</button>
-            <div class="comment-box">
-                <!-- {% if obj.comment_set.all %}
-                    {% for c in obj.comment_set.all %}-->
-
-                <div class="ui segment mb-5">
-                    <img class="ui avatar image" src={{c.user.avatar.url}}>
-                    <span>
-                        <!--{{ c.user }} -->
-                    </span>
-                    <div class='mt-5'>
-                        <!--{{ c.body }}-->
-                    </div>
-                </div>
-
-                <!--  {% endfor %}
-                    {% endif %} -->
-            </div>
-
+            {% for comment in obj.comments.all %}
+            <article class="media">
+  <figure class="media-left">
+    <p class="ui avatar image"><img src="/media/{{comment.user.image}}">
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+       <p>
+        <strong>{{obj.author.first_name}}&nbsp;{{obj.author.last_name}}
+        </strong> <small>{{ comment.created|timesince }} ago</small>
+        <br>
+        {{ comment.body }}
+      </p>
+                    
+                    
+    </div>
+    
+  </div>
+  <div class="media-right">
+    <button class="delete"></button>
+  </div>
+</article>
+{% endfor %}
+                
+            
             <form action="" method="POST" class='ui fluid form'>
                 {% csrf_token %}
                 <input type="hidden" name="post_id" value={{obj.id}}>
                 <!--  {{ c_form }} -->
-                <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
+                <a class="button is-primary"
+                 href="{% url 'posts:add_comment' obj.id %}">Dodaj komentar</a>
             </form>
         </div>
     </div>

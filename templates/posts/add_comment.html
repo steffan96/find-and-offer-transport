@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <div id="app">
+  <div class="section">
+    <div class="container">
+      
+        
+      <div class="title">Dodaj komentar</div>
+      
+
+<div class="is-flex is-justify-content-left is-align-content-center ml-6">
+  <div class="main-container">
+<form method="POST">
+{% csrf_token %}
+<label style="font-size: large;" class="has-text-weight-bold" for="{{ form.body.id_for_label }}">Sadržaj</label>
+    <div class="field m-3">
+          <p class="control has-icons-left has-icons-right"></p>
+          <textarea type='text' rows="4" cols="66" style="text-align-last: initial;" 
+          class="textarea is-medium" id="{{ form.body.id_for_label }}" 
+          name="{{ form.body.html_name }}"
+             ></textarea>
+          {{ form.body.errors }}
+        </div>
+
+<button type="submit" class="button is-primary">Potvrdi</button>
+</form>
+</div>
+</div>
+    </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.db.models import fields
 from django.forms import ModelForm
-from .models import Post
+from .models import Post, Comment
 from django import forms
 
 
@@ -13,6 +13,17 @@ class OfferingCreateForm(ModelForm):
                 'title':{
                     'required': 'Popunite ovo polje.'
                 },
+                'body':{
+                    'required': 'Popunite ovo polje.'
+                },
+            }
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body',)
+        
+        error_messages={
                 'body':{
                     'required': 'Popunite ovo polje.'
                 },

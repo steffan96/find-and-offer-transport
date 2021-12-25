@@ -1,3 +1,4 @@
+from django.db.models import fields
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (DetailView, CreateView, 
@@ -5,10 +6,8 @@ from django.views.generic import (DetailView, CreateView,
 
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormView
-from .models import LikeDislike, Post
-from .forms import OfferingCreateForm
+from .models import LikeDislike, Post, Comment
+from .forms import OfferingCreateForm, CommentForm
 
 
 class HomePageView(LoginRequiredMixin, ListView):
@@ -57,10 +56,23 @@ class LookingCreateView(LoginRequiredMixin, CreateView):
     success_message = "Uspješno!"
 
     def form_valid(self, form):
-        form.instance.author= self.request.user
+        form.instance.author = self.request.user
         form.instance.looking = True
         return super().form_valid(form)
 
+
+class AddCommentView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'posts/add_comment.html'
+    success_url = reverse_lazy('posts:home')
+    success_message = "Uspješno!"
+
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
 
 @login_required
 def like_dislike(request, post_id, user_preference):
@@ -72,7 +84,7 @@ def like_dislike(request, post_id, user_preference):
 
         if user_preference == 1:
             eachpost.likes += 1
-            eachpost.dislikes -= 1
+            
             
             eachpost.users_liked.add(request.user)
             eachpost.save()
@@ -81,9 +93,8 @@ def like_dislike(request, post_id, user_preference):
 
         elif user_preference == 2:
             eachpost.likes -= 1
-            eachpost.dislikes += 1
-            eachpost.users_liked.remove(request.user)
             
+            eachpost.users_liked.remove(request.user)
             new_obj.save()
             eachpost.save()
             return redirect('posts:home')
@@ -93,16 +104,14 @@ def like_dislike(request, post_id, user_preference):
         
         if user_preference == 1:
             eachpost.likes += 1
-            
             eachpost.users_liked.add(request.user)
             eachpost.save()
             new_obj.save()
             return redirect('posts:home')
 
         elif user_preference == 2:
-            eachpost.dislikes += 1
+            eachpost.likes -= 1
             eachpost.users_liked.remove(request.user)
-            
             eachpost.save()
             new_obj.save()
             return redirect('posts:home')

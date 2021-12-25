@@ -16,9 +16,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     likes = models.SmallIntegerField(default=0)
-    dislikes = models.SmallIntegerField(default=0)
     users_liked = models.ManyToManyField(CustomUser, related_name='users_liked')
-    
 
     def get_absolute_url_offering(self):
         return reverse('posts:post_detail', args=[str(self.pk)])
@@ -28,7 +26,7 @@ class Post(models.Model):
     
     def __str__(self):
         return f"{self.author.first_name}: {self.title}"
-
+        
 
 class LikeDislike(models.Model):
   user = ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -41,4 +39,15 @@ class LikeDislike(models.Model):
   
   class Meta:
     unique_together = ('user', 'post', 'value')
+
+
+class Comment(models.Model):
+  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+  post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+  body = models.TextField()
+  created = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return str(self.body[:40])
+
 

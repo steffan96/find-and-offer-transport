@@ -1,12 +1,34 @@
 {% extends 'base.html' %}
 
+{% block title %}{% endblock %}
+
 {% block content %}
 <h1>{{ post.title }}</h1>
+{{post}}
 <p>{{ post.body|linebreaks }}</p>
 <hr>
 <h2>Comments</h2>
-{% for comment in post.comment_set.all %}
-<p>{{ comment.created|timesince }} ago</p>
+
+<br>
+<h1>Add comment</h1>
+
+<a href="{% url 'posts:add_comment' post.id %}" 
+class="button is-primary">Dodaj komentar</a>
+ <br>
+
+{% if not post.comments.all %}
+
+    NO COMMENTS YET
+{% else %}
+
+
+
+{% for comment in post.comments.all %}
+{{ comment.created|timesince }} ago
+<br>
 <p>{{ comment.body }}</p>
 {% endfor %}
+{% endif %}
+
+
 {% endblock %}

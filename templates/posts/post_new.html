@@ -22,15 +22,19 @@
     <label class="has-text-weight-bold" for="{{ form.title.id_for_label }}">Naslov</label>
     <div class="field m-3">
           <p class="control has-icons-left has-icons-right"></p>
-          <input class="input" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}"
-            type="{{form.title.widget_type}}" {% if form.title.value != None %} value="{{form.title.value}}"{% endif %} />
+          <input class="input" id="{{ form.title.id_for_label }}" 
+          name="{{ form.title.html_name }}"
+            type="{{form.title.widget_type}}" {% if form.title.value != None %} 
+            value="{{form.title.value}}"{% endif %} />
           {{ form.title.errors }} 
         </div>
     <label class="has-text-weight-bold" for="{{ form.body.id_for_label }}">Sadržaj</label>
     <div class="field m-3">
           <p class="control has-icons-left has-icons-right"></p>
           
-          <textarea type='text' rows="4" cols="66" style="text-align-last: initial;" class="textarea is-medium" id="{{ form.body.id_for_label }}" name="{{ form.body.html_name }}"
+          <textarea type='text' rows="4" cols="66" style="text-align-last: initial;" 
+          class="textarea is-medium" id="{{ form.body.id_for_label }}" 
+          name="{{ form.body.html_name }}"
              ></textarea>
           {{ form.body.errors }}
         </div>
