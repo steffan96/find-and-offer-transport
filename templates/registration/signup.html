@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}<title>Registracija</title>{% endblock %}
+
+{% block content %}
+
+ 
+    
+      <div id="app">
+  <div class="section">
+    <div class="container">
+      
+        
+      <div class="title">Sign Up</div>
+      <div class="subtitle">With Your Email</div>
+      <form id="register-form" method="post">
+            {% csrf_token %}
+       <div class="field">
+                     {% for field in form %}
+                        {{ field.label_tag }}
+
+           <div class="field m-3">
+          <p class="control has-icons-left has-icons-right"></p>
+          <input class="input" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+            type="{{field.widget_type}}" {% if field.value != None and field.value != 'default.jpg' %}value="{{field.value}}"{% endif %}/>
+          {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div class="control">
+              <button class="button is-primary is-medium" type="submit">Register</button>
+            </div>
+      </form>
+    </div>
+  </div>
+</div>
+    
+
+{% endblock %}

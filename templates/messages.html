@@ -1,0 +1,11 @@
+{% if messages %}
+  {% for message in messages %}
+    <article class="message.tags" id='messageID'>
+  <div class="message-header">
+    {{ message }}
+    <button class="delete" aria-label="delete"></button>
+  </div>
+ 
+</article>
+ {% endfor %}
+{% endif %}

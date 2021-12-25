@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="field has-addons">
+    <div class="control m-1" style="margin-right: 5px;">
+        <input class="input is-inline" type="text" placeholder="Ime grada/opštine">
+        <a class="button is-info m-0">
+            Pretraga
+        </a>
+    </div>
+</div>
+
+
+<div style="display: grid; grid-template-columns: 1fr 2fr 1fr; justify-items: center;">
+    {% for obj in object_list %}
+    <div class="ui fluid card" style="grid-column: 2/3;">
+        <div class="content">
+            <div class="right floated meta is-inline-block">
+                <div class="ui grid">
+                    <div class="row">
+                        <a href="{% url 'posts:post_update' obj.pk %}"><button
+                                class="ui button bwhite-lg ">Promijeni</button></a>
+                        <a href="{% url 'posts:post_delete' obj.pk %}"><button class="ui button bwhite-lg ">Obriši</button></a>
+                    </div>
+                </div>
+            </div>
+            <img class="ui avatar image" src="/media/{{user.image}}" >
+            <p class="is-inline-block" style="font-weight: bold;">{{obj.author.first_name}}&nbsp;{{obj.author.last_name}}</p>
+        </div>
+        <div class="content">
+            <p id='title' class="has-text-weight-bold"
+                style="font-size: large; white-space:wrap; inline-size: 350px; overflow-wrap: break-word;">
+                <a onMouseOver="this.style.color='hsl(171, 100%, 41%)'" 
+                    onMouseOut="this.style.color='#000000'"
+                    id='title' style="text-decoration: none; color: black;" 
+                    href="{% url 'posts:post_detail' obj.pk %}"> {{ obj.title }}</a> </p>
+            <p style="white-space:wrap; inline-size: 350px; overflow-wrap: break-word;">{{obj.body}}</p>
+            <div class="right floated">
+                {% if user not in obj.users_liked.all %}
+                <div class='like-form is-inline-block'>
+                        <a class="button is-primary" href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=1 %}">Like</a>
+                   
+                    <!-- <div class="ui grid">
+                           <div class="column">
+                                <div class="like-count{{obj.id}}"> {{obj.num_likes}} </div>
+                            </div> 
+                            <div class="column">
+                                likes
+                            </div> 
+                        </div>-->
+                    </div>
+                {% else %}
+                <div class='like-form is-inline-block'>
+                        <a class="button is-danger" href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=2 %}">Unlike</a>
+                   
+                    <!-- <div class="ui grid">
+                           <div class="column">
+                                <div class="like-count{{obj.id}}"> {{obj.num_likes}} </div>
+                            </div> 
+                            <div class="column">
+                                likes
+                            </div> 
+                        </div>-->
+                    </div>
+                 {% endif %}
+            </div>
+            <!--  <i class="comment icon"></i>
+               <span> {{ obj.num_comments }} comments</span>-->
+        </div>
+        <div class="extra content">
+            <div class="mb-5">
+
+            </div>
+            <button class="cmt_btn ui button mb-5">show / hide comments</button>
+            <div class="comment-box">
+                <!-- {% if obj.comment_set.all %}
+                    {% for c in obj.comment_set.all %}-->
+
+                <div class="ui segment mb-5">
+                    <img class="ui avatar image" src={{c.user.avatar.url}}>
+                    <span>
+                        <!--{{ c.user }} -->
+                    </span>
+                    <div class='mt-5'>
+                        <!--{{ c.body }}-->
+                    </div>
+                </div>
+
+                <!--  {% endfor %}
+                    {% endif %} -->
+            </div>
+
+            <form action="" method="POST" class='ui fluid form'>
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value={{obj.id}}>
+                <!--  {{ c_form }} -->
+                <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
+            </form>
+        </div>
+    </div>
+
+
+    {% endfor %}
+</div>
+
+
+
+
+{% for contact in page_obj %}
+{# Each "contact" is a Contact model object. #}
+{{ contact.full_name|upper }}<br>
+...
+{% endfor %}
+<div class="pagination is-rounded" style="justify-content: center;">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="pagination-link"><<</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">
+                    <</a>
+                        {% endif %}
+
+                        <span class="pagination-ellipsis" style="font-weight: 500; color: black;">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">></a>
+                        <a class="pagination-link" href="?page={{ page_obj.paginator.num_pages }}">>></a>
+                        {% endif %}
+    </span>
+</div>
+{% endblock %}

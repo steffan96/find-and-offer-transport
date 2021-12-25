@@ -13,6 +13,9 @@ import os
 from pathlib import Path
 import environ
 
+from django.contrib import messages
+
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -48,11 +51,13 @@ INSTALLED_APPS = [
     "crispy_forms",  
     'bulma',
     'social_django',
+ 
+    
     
 
     #local  
     'accounts.apps.AccountsConfig',
-    'pages.apps.PagesConfig',
+    'posts.apps.PostsConfig',
 ]
 
 
@@ -155,12 +160,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'posts:home'
 LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -170,7 +175,18 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'accounts.utils.EmailBackend'
 ]
 
+# google
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_SEC_KEY')
+
+# conf for no username required
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+
+

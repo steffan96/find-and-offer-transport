@@ -47,6 +47,8 @@ coverage.xml
 # pyenv 
 .python-version 
 
+# node
+node_modules/
 # Environments 
 findoffer/.env
 .env 
@@ -80,3 +82,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+node_modules

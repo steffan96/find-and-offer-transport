@@ -8,33 +8,36 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
 {% block title %} <title>Prijavi se</title> {% endblock %}
 {% block content %}
 <div class="is-flex is-justify-content-center is-align-content-center">
-<div class="login-container">
-<div class="field m-3">
-  <p class="control has-icons-left has-icons-right">
-    <input class="input" type="email" placeholder="Email">
-    <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
-  </p>
+  <div class="login-container">
+    <div class="field m-3">
+      <form method='post'>
+        {% csrf_token %}
+        {% for field in form %}
+        {{ field.label_tag }}
+        <div class="field m-3">
+          <p class="control has-icons-left has-icons-right"></p>
+          <input class="input" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}"
+            type="{{field.widget_type}}" />
+          {{ field.errors }}
+        </div>
+
+        {% endfor %}
+
+
+        <div class="field m-3 is-justify-content-center">
+          <p class="control">
+            <button class="button is-success">
+              Login
+            </button>
+            
+            <a href="{% url 'password_reset' %}">Zaboravljena šifra</a>
+            
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-<div class="field m-3">
-  <p class="control has-icons-left">
-    <input class="input" type="password" placeholder="Password">
-    <span class="icon is-small is-left">
-      <i class="fas fa-lock"></i>
-    </span>
-  </p>
-</div>
-<div class="field m-3 is-justify-content-center">
-  <p class="control">
-    <button class="button is-success">
-      Login
-    </button>
-  </p>
-</div>
-</div>
-</div>
+
 {% endblock %}
+<!--{% include 'messages.html' %}-->

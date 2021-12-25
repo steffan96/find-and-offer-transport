@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="app">
+  <div class="section">
+    <div class="container">
+<div class="title">Da li ste sigurni da želite da obrišete objavu?</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    
+   <div class="field m-3 is-justify-content-center">
+          <p class="control">
+            <button type="submit" class="button is-success">
+              Potvrdi
+            </button>            
+          </p>
+        </div>
+</form>
+   </div>
+  </div>
+</div>
+
+{% endblock content %}

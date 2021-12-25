@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}{% endblock %}
+
+{% block content %}
+
+
+      <div id="app">
+  <div class="section">
+    <div class="container">
+<div class="title">Promijeni objavu</div>
+   </div>
+  </div>
+</div>
+
+
+<div class="is-flex is-justify-content-left is-align-content-center ml-6">
+  <div class="main-container">
+    
+<form method='post'>
+    {% csrf_token %}
+    <label class="has-text-weight-bold" for="{{ form.title.id_for_label }}">Naslov</label>
+    <div class="field m-3">
+          <p class="control has-icons-left has-icons-right"></p>
+          <input class="input" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}"
+            type="{{form.title.widget_type}}" {% if form.title.value != None %} value="{{form.title.value}}"{% endif %} />
+          {{ form.title.errors }} 
+        </div>
+    <label class="has-text-weight-bold" for="{{ form.body.id_for_label }}">Sadržaj</label>
+    <div class="field m-3">
+          <p class="control has-icons-left has-icons-right"></p>
+          
+          <textarea type='text' rows="4" cols="66" style="text-align-last: initial;" class="textarea is-medium" id="{{ form.body.id_for_label }}" name="{{ form.body.html_name }}"
+             ></textarea>
+          {{ form.body.errors }}
+        </div>
+    <div class="field m-3 is-justify-content-center">
+          <p class="control">
+            <button type="submit" class="button is-success">
+              Objavi
+            </button>            
+          </p>
+        </div>
+</form>
+</div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+

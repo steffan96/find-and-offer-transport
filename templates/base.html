@@ -1,65 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
-    {% load bulma_tags %}
+{% load static %}
+
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-{% block title %}<title></title>{% endblock %}
-    <link rel="stylesheet" href="{% static 'bulma/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block title %}<title></title>{% endblock %}
+  <link rel="stylesheet" href="{% static 'bulma/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+
+
+  {% if user.is_authenticated %}
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    
-
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  
-  <div class="navbar-start">
-    <div class="navbar-item">
-      <div class="buttons"></div>
-        <a class="button is-light" href="{% url 'pages:home' %}">
-            <strong>Home</strong>
-          </a>
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-  </div>
+    <div class="navbar-start">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-light" style="margin-right: 4px;" href="{% url 'posts:home' %}">
+            <strong>Početna</strong>
+          </a>
+        
+    
+    
+     
+          <a href="{% url 'posts:looking_new' %}" class="button is-danger">Tražim prijevoz</a>
+          <a href="{% url 'posts:offering_new' %}" class="button is-warning">Nudim prijevoz</a>
+        
+    
+      
+      </div>
+    </div>
+    </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <div class="is-flex m-2">
+              
+              <img src='/media/{{user.image}}' class="image is-48x48" style="border-radius: 50%;">
+                 <div class="navbar-item has-dropdown is-hoverable">
+              <div class="navbar-link">
+                <div class="navbar-dropdown" style="left: -130%; top: 8;">
+                  
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
+          </a>
+         
+          </div>
+      </div>
+    
+                
+              
+              </div>
+              </div>
+              </div>
+              
+              <a href="{% url 'logout' %}" class="button is-primary">
+                Odjavi se
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% else %}
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          
           <a class="button is-light" href="{% url 'users:signup' %}">
             <strong>Registracija</strong>
           </a>
           <a class="button is-primary" href="{% url 'login' %}">
             Prijavi se
           </a>
+
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+    {% endif %}
+    {% include 'messages.html' %}
 </head>
 
-   
-  <body>
-
-
-
-
-{% block content %}
-{% endblock %}
+<body>
+  
+  {% block content %}
+  {% endblock %}
 </body>
+
 </html>
-
-
-
-    
-
-
-
