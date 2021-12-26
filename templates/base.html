@@ -15,7 +15,8 @@
   {% if user.is_authenticated %}
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <a role="button" class="navbar-burger" aria-label="menu" 
+      aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -24,15 +25,18 @@
     <div class="navbar-start">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-light" style="margin-right: 4px;" href="{% url 'posts:home' %}">
+          <a class="button is-light" style="margin-right: 4px;" 
+          href="{% url 'posts:home' %}">
             <strong>Početna</strong>
           </a>
         
     
     
      
-          <a href="{% url 'posts:looking_new' %}" class="button is-danger">Tražim prijevoz</a>
-          <a href="{% url 'posts:offering_new' %}" class="button is-warning">Nudim prijevoz</a>
+          <a href="{% url 'posts:looking_new' %}" 
+          class="button is-danger">Tražim prijevoz</a>
+          <a href="{% url 'posts:offering_new' %}" 
+          class="button is-warning">Nudim prijevoz</a>
         
     
       
@@ -44,20 +48,15 @@
           <div class="buttons">
             <div class="is-flex m-2">
               
-              <img src='/media/{{request.user.image}}' class="image is-48x48" style="border-radius: 50%;">
+              <img src='/media/profile_pics/{{request.user.image}}' class="image is-48x48" style="border-radius: 50%;">
                  <div class="navbar-item has-dropdown is-hoverable">
               <div class="navbar-link">
                 <div class="navbar-dropdown" style="left: -130%; top: 8;">
                   
-          <a class="navbar-item">
-            About
+          <a href="{% url 'accounts:my_profile' request.user.pk %}" class="navbar-item">
+            Profil
           </a>
-          <a class="navbar-item">
-            Jobs
-          </a>
-          <a class="navbar-item">
-            Contact
-          </a>
+          
           <hr class="navbar-divider">
           <a class="navbar-item">
             Report an issue
@@ -93,7 +92,7 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-light" href="{% url 'users:signup' %}">
+          <a class="button is-light" href="{% url 'accounts:signup' %}">
             <strong>Registracija</strong>
           </a>
           <a class="button is-primary" href="{% url 'login' %}">

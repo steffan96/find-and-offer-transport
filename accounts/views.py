@@ -1,16 +1,16 @@
-from django.contrib import auth
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
-from django.views.generic import CreateView
-from .forms import CustomUserCreationForm
+from django.contrib.auth.views import LoginView
+from django.views.generic import CreateView, UpdateView
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.messages.views import SuccessMessageMixin
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import CustomUser
 
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -20,22 +20,20 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 
 
+class LoginFormView(SuccessMessageMixin, LoginView):
+    template_name = 'registration/login.html'
+    success_url = reverse_lazy('posts:home')
+    success_message = "Dobrodošli!"
 
-class SignUpView(SuccessMessageMixin, CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/signup.html'
-    success_message = "Uspješno ste kreirali profil!"
 
-    def form_valid(self, form):
-        to = super().form_valid(form)
-        user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
-        login (self.request, user)
-        return to
-
+class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = CustomUserChangeForm
+    model = CustomUser
+    success_url = reverse_lazy('posts:home')
+    template_name = 'profile.html'
+    success_message = "Uspješno ste ažurirali profil!"
     
-
-
+    
 def password_reset_request(request):
 	if request.method == "POST":
 		password_reset_form = PasswordResetForm(request.POST)
@@ -67,3 +65,16 @@ def password_reset_request(request):
 					return redirect ("/password_reset/done/")
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="password_reset.html", context={"password_reset_form":password_reset_form})
+
+
+class SignUpView(SuccessMessageMixin, CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('posts:home')
+    template_name = 'registration/signup.html'
+    success_message = "Uspješno ste kreirali profil!"
+
+    def form_valid(self, form):
+        to = super().form_valid(form)
+        user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
+        login (self.request, user)
+        return to

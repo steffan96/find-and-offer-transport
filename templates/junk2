@@ -1,52 +1,80 @@
-{% extends 'base.html' %}
-<!--
-<a href="{% url 'social:begin' 'google-oauth2' %}" 
-class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
--->
-
-
-{% block title %} <title>Prijavi se</title> {% endblock %}
-{% block content %}
-<div class="is-flex is-justify-content-center is-align-content-center">
-<div class="login-container">
-<div class="field m-3">
-  <p class="control has-icons-left has-icons-right">
-    <input class="input" type="email" placeholder="Email">
-    <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
-  </p>
-</div>
-<div class="field m-3">
-  <p class="control has-icons-left">
-    <input class="input" type="password" placeholder="Password">
-    <span class="icon is-small is-left">
-      <i class="fas fa-lock"></i>
-    </span>
-  </p>
-</div>
-<div class="field m-3 is-justify-content-center">
-  <p class="control">
-    <button class="button is-success">
-      Login
+<!-- MODAL -->
+<div class="ui modal mymodal">
+  <i class="close icon"></i>
+  <div class="header">
+    Update your Profile
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="{{profile.avatar.url}}">
+    </div>
+    <div class="description">
+      <div class="ui header">Provide some additional/newest info about you </div>
+     <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{form.as_p}}
+    </div>
+  </div>
+  <div class="actions">
+    <button type='submit' class="ui positive right labeled icon button">
+      Update
+      <i class="checkmark icon"></i>
     </button>
-  </p>
+    </form>
+  </div>
 </div>
-</div>
-</div>
-{% endblock %}aa
 
 
 
-#naslov 
+<div class="is-flex">
+    
+    <h3>my profile: {{request.user}}</h3>
+    <div class="ui grid">
+        <div class='row'>
+            <div class='six wide column'>
+                <img class="ui medium rounded image" src={{profile.avatar.url}}>
+                <div class="row mt-5">
+                    <button class='ui secondary button' id='modal-btn'>Update your profile</button>
+                </div>
+            </div>
+            <div class="ten wide column">
+                <table class="ui table">
+                    <tbody>
+                        <tr>
+                            <td>username</td>
+                            <td>username</td>
+                        </tr>
+                        <tr>
+                            <td>first name</td>
+                            <td>{{request.user.first_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>last name</td>
+                            <td>{{request.user.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>bio</td>
+                            <td>bio</td>
+                        </tr>
+                        <tr>
+                            <td>number of friends</td>
+                            <td>num friends</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>number of posts</td>
+                            <td>num of posts</td>
+                        </tr>
+                        <tr>
+                            <td>number of likes given</td>
+                            <td>num likes</td>
+                        </tr>
+                       
 
-<label class="has-text-weight-bold" for="{{ form.title.id_for_label }}">Naslov</label>
-    <div class="field m-3">
-          <p class="control has-icons-left has-icons-right"></p>
-          <input class="input" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}"
-            type="{{form.title.widget_type}}" {% if form.title.value != None %} value="{{form.title.value}}"{% endif %} />
-          {{ form.title.errors }} 
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+</div>

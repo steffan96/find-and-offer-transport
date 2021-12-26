@@ -40438,6 +40438,23 @@ body.pushable > .pusher {
     resize: none
 }
 
+html, body, #app {
+  height: 100%;
+}
+
+#app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.main-content {
+  flex: 1;
+}
+.footer {
+  margin-top: -12px;
+}
+
+
 /*******************************
          Site Overrides
 *******************************/

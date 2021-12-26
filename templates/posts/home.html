@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <img class="ui avatar image" src="/media/{{obj.author.image}}" >
+            <img class="ui avatar image" src="/media/profile_pics/{{obj.author.image}}" >
             <p class="is-inline-block" style="font-weight: bold;">{{obj.author.first_name}}&nbsp;{{obj.author.last_name}}</p>
         </div>
         <div class="content">
@@ -84,7 +84,7 @@
             {% for comment in obj.comments.all %}
             <article class="media">
   <figure class="media-left">
-    <p class="ui avatar image"><img src="/media/{{comment.user.image}}">
+    <p class="ui avatar image"><img src="/media/profile_pics/{{comment.user.image}}">
     </p>
   </figure>
   <div class="media-content">
@@ -123,11 +123,10 @@
 
 
 
-
+<br> <br>
 {% for contact in page_obj %}
-{# Each "contact" is a Contact model object. #}
-{{ contact.full_name|upper }}<br>
-...
+
+
 {% endfor %}
 <div class="pagination is-rounded" style="justify-content: center;">
     <span class="step-links">
@@ -138,7 +137,7 @@
                         {% endif %}
 
                         <span class="pagination-ellipsis" style="font-weight: 500; color: black;">
-                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            Stranica {{ page_obj.number }} od {{ page_obj.paginator.num_pages }}
                         </span>
 
                         {% if page_obj.has_next %}
