@@ -2,93 +2,73 @@
 <html lang="en">
 {% load static %}
 
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block title %}<title></title>{% endblock %}
   <link rel="stylesheet" href="{% static 'bulma/css/style.css' %}">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+
 
 
   {% if user.is_authenticated %}
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a role="button" class="navbar-burger" aria-label="menu" 
-      aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-    <div class="navbar-start">
-      <div class="navbar-item">
-        <div class="buttons">
-          <a class="button is-light" style="margin-right: 4px;" 
-          href="{% url 'posts:home' %}">
-            <strong>Početna</strong>
-          </a>
+ <nav class="navbar is-dark"
+ style="border-radius: 0 !important; -moz-border-radius: 0 !important;">
+ 
+    <div class="navbar-brand" style="margin-top: 2px;">
+      <a href="{% url 'posts:home' %}" class="button is-primary m-1" 
+      style="align-self: center;">Početna</a>
+     <div class="navbar-item center">
+      <form method="GET">
         
-    
-    
-     
-          <a href="{% url 'posts:looking_new' %}" 
-          class="button is-danger">Tražim prijevoz</a>
-          <a href="{% url 'posts:offering_new' %}" 
-          class="button is-warning">Nudim prijevoz</a>
-        
-    
-      
-      </div>
-    </div>
-    </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <div class="is-flex m-2">
-              
-              <img src='/media/profile_pics/{{request.user.image}}' class="image is-48x48" style="border-radius: 50%;">
-                 <div class="navbar-item has-dropdown is-hoverable">
-              <div class="navbar-link">
-                <div class="navbar-dropdown" style="left: -130%; top: 8;">
-                  
-          <a href="{% url 'accounts:my_profile' request.user.pk %}" class="navbar-item">
-            Profil
-          </a>
-          
-          <hr class="navbar-divider">
-          <a class="navbar-item">
-            Report an issue
-          </a>
-         
-          </div>
-      </div>
-    
-                
-              
-              </div>
-              </div>
-              </div>
-              
-              <a href="{% url 'logout' %}" class="button is-primary">
-                Odjavi se
-              </a>
+        <div class="control m-1 is-inline-block">
+            <input name='searched' class="input" size="30" style="text-align: center;" 
+            type="text" placeholder="Ime grada/opštine">
             </div>
-          </div>
-        </div>
+
+
+            <div class="control m-1">
+              <label class="checkbox">
+              <input name='looking' type="checkbox">
+                Tražim
+              </label>
+              <label class="checkbox">
+              <input name='offering' type="checkbox">
+                Nudim
+              </label>
+                <input type="submit" class="button is-info m-0 is-mobile" value="Pretraga">
+
+            </div>
+    
+    </form>
+     </div>
+
+
+
+      
+
+      <span class="navbar-burger burger" data-target='navbarMenu'>
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+    <div id='navbarMenu' class="navbar-menu">
+      <div class="navbar-end" style="margin-top: 5px;">
+        <a href="{% url 'posts:looking_new' %}" 
+        class="button is-link" style="margin-right: 5px; margin-left: 5px;">Tražim prijevoz</a>
+        <a href="{% url 'posts:offering_new' %}" 
+        class="button is-link" style="margin-right: 5px;">Nudim prijevoz</a>
+        <a href="{% url 'accounts:my_profile' request.user.pk %}" 
+        class="button is-primary" style="margin-right: 5px; align-self: center;">Profil</a>
+        <a style="margin-right: 5px; align-self: center;" href="{% url 'logout' %}" class="button is-danger">Odjavi se</a>
       </div>
     </div>
-  </nav>
+
+ </nav>
+
   {% else %}
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
+    
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -110,7 +90,23 @@
 <body>
   
   {% block content %}
+  
   {% endblock %}
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var burger = document.querySelector('.burger');
+      var navbarMenu = document.querySelector('#'+burger.dataset.target);
+
+      burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        navbarMenu.classList.toggle('is-active');
+      });
+    })();
+  </script>
 </body>
 
 </html>
+

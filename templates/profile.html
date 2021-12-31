@@ -69,14 +69,18 @@
 
                     <div class="field m-3">
                     <p class="control has-icons-left has-icons-right"></p>
-                    <input class="input" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
-                        type="{{field.widget_type}}" {% if field.value != None and field.value != 'default.jpg' %}value="{{field.value}}"{% endif %}/>
+                    <input class="input" id="{{ field.id_for_label }}" 
+                    name="{{ field.html_name }}"
+                        type="{{field.widget_type}}" 
+                        {% if field.value != None and field.value != 'default.jpg' %}
+                        value="{{field.value}}"{% endif %}/>
                     {{ field.errors }}
                     </div>
                 {% endfor %}
                 <br>
                 <div class="field m-3">
-                    <button class="button is-primary is-medium" type="submit">Potvrdi</button>
+                    <a class="button is-primary is-medium" 
+                    type="submit">Potvrdi</a>
                     </div>
             </div>
             </form>

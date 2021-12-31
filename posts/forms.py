@@ -1,7 +1,10 @@
-from django.db.models import fields
+import django
+from django.db.models import expressions, fields
 from django.forms import ModelForm
+from django.forms.widgets import CheckboxSelectMultiple
 from .models import Post, Comment
 from django import forms
+import django_filters
 
 
 class OfferingCreateForm(ModelForm):
@@ -28,3 +31,9 @@ class CommentForm(ModelForm):
                     'required': 'Popunite ovo polje.'
                 },
             }
+
+class PostSearchForm(forms.Form):
+    my_object = forms.MultipleChoiceField(
+    widget=forms.CheckboxSelectMultiple,
+    )
+    

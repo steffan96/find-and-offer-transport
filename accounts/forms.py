@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.db.models.base import Model
 from django.forms import widgets
 from django.forms.models import ModelForm
-
+from django.utils.translation import gettext, gettext_lazy as _
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -16,6 +16,14 @@ class CustomUserCreationForm(UserCreationForm):
             'city': 'Grad',
             'country': 'Država',
         }
+        error_messages={
+                'password_mismatch':{
+                    _('Šifre se ne podudaraju'),
+                },
+                'body':{
+                    'required': 'Popunite ovo polje.'
+                },
+            }
     
 
 class CustomUserChangeForm(ModelForm):

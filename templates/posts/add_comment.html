@@ -19,14 +19,15 @@
 <label style="font-size: large;" class="has-text-weight-bold" for="{{ form.body.id_for_label }}">Sadržaj</label>
     <div class="field m-3">
           <p class="control has-icons-left has-icons-right"></p>
-          <textarea type='text' rows="4" cols="66" style="text-align-last: initial;" 
+          <textarea type='text' rows="4" cols="16" 
+          style="min-width: 360px; text-align-last: initial;" 
           class="textarea is-medium" id="{{ form.body.id_for_label }}" 
           name="{{ form.body.html_name }}"
              ></textarea>
           {{ form.body.errors }}
         </div>
 
-<button type="submit" class="button is-primary">Potvrdi</button>
+<a type="submit" class="button is-primary">Potvrdi</a>
 </form>
 </div>
 </div>

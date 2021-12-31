@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (DetailView, CreateView, 
@@ -6,6 +7,7 @@ from django.views.generic import (DetailView, CreateView,
 
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.list import MultipleObjectMixin
 from .models import LikeDislike, Post, Comment
 from .forms import OfferingCreateForm, CommentForm
 
@@ -14,7 +16,34 @@ class HomePageView(LoginRequiredMixin, ListView):
     model = Post
     paginate_by = 5
     template_name = 'posts/home.html'
-    ordering = ['-updated', '-created']
+    
+    
+    def get_queryset(self):
+        ordering = ['-updated', '-created']
+        searched = self.request.GET.get('searched', '')
+        offering = self.request.GET.get('offering', '')
+        looking = self.request.GET.get('looking', '')
+
+        if searched and looking and offering:
+            object_list = self.model.objects.filter(
+            author__city__icontains=searched).order_by(*ordering)
+        elif searched and offering:
+            object_list = self.model.objects.filter(offering=True, 
+                author__city__icontains=searched).order_by(*ordering)
+        elif searched and looking:
+            object_list = self.model.objects.filter(looking=True, 
+                author__city__icontains=searched).order_by(*ordering)
+        else:
+            object_list = self.model.objects.filter(
+            author__city__icontains=searched).order_by(*ordering)
+        return object_list
+
+        
+    
+    
+    
+    
+        
 
 
 class PostDetailView(DetailView):
@@ -117,3 +146,6 @@ def like_dislike(request, post_id, user_preference):
             return redirect('posts:home')
             
 
+
+
+    

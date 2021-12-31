@@ -9,11 +9,11 @@ from django.contrib.auth.models import UserManager
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = CharField(max_length=30, null=True, blank=True)
-    email = models.EmailField(verbose_name='email', max_length=70, unique=True)
+    email = models.EmailField(verbose_name='email', max_length=70, unique=True, 
+    error_messages={'unique': 'Korisnik sa ovom email adresom već postoji.'},)
     first_name = models.CharField(verbose_name='first_name', max_length=40)
     last_name = models.CharField(verbose_name='last_name', max_length=40)
-    city = models.CharField(verbose_name='city', max_length=40, null=True, blank=True)
+    city = models.CharField(verbose_name='city', max_length=60)
     country = models.CharField(verbose_name='country', max_length=40, null=True, blank=True)
     date_joined = models.DateTimeField(verbose_name='joined', auto_now_add=True)
     last_seen = models.DateTimeField(verbose_name='last_seen', auto_now=True)
@@ -25,7 +25,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name',]
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'city']
+    
 
     
     

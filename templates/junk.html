@@ -1,45 +1,78 @@
-<div class="main-container" >
-<article class="panel is-success left-container">
-  <p class="panel-heading">
-    Success
-  </p>
- 
-  <div class="panel-block">
-    <p class="control has-icons-left">
-      <input class="input is-success" type="text" placeholder="Search">
-      <span class="icon is-left">
-        <i class="fas fa-search" aria-hidden="true"></i>
-      </span>
-    </p>
-  </div>
-  <a class="panel-block is-active">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    bulma
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    marksheet
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    minireset.css
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    jgthms.github.io
-  </a>
-  <span class="panel-icon" style="padding-bottom: 100%;">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-</article>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
 
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block title %}<title></title>{% endblock %}
+  <link rel="stylesheet" href="{% static 'bulma/css/style.css' %}">
+  
+
+
+  {% if user.is_authenticated %}
+ <nav class="navbar is-dark">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="" class="navbar-item">Pocetna</a>
+      <span class="navbar-burger burger" data-target='navbarMenu'>
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+    <div id='navbarMenu' class="navbar-menu">
+      <div class="navbar-end">
+        <a href="" class="navbar-item">Trazim prijevoz</a>
+        <a href="" class="navbar-item">Nudim prijevoz</a>
+        <a href="" class="navbar-item is-active">Profil</a>
+        <a href="" class="navbar-item">Odjavi se</a>
+      </div>
+    </div>
+  </div>
+ </nav>
+
+  {% else %}
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-light" href="{% url 'accounts:signup' %}">
+            <strong>Registracija</strong>
+          </a>
+          <a class="button is-primary" href="{% url 'login' %}">
+            Prijavi se
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+    {% endif %}
+    {% include 'messages.html' %}
+</head>
+
+<body>
+  
+  {% block content %}
+  {% endblock %}
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var burger = document.querySelector('.burger');
+      var navbarMenu = document.querySelector('#'+burger.dataset.target);
+
+      burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        navbarMenu.classList.toggle('is-active');
+      });
+    })();
+  </script>
+</body>
+
+</html>
 

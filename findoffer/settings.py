@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "crispy_forms",  
     'bulma',
     'social_django',
-    
+    'django_filters',
     
     #local  
     'accounts.apps.AccountsConfig',
