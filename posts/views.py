@@ -1,5 +1,6 @@
 from django.db.models import fields
 from django.core.paginator import Paginator
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (DetailView, CreateView, 
@@ -9,7 +10,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import MultipleObjectMixin
 from .models import LikeDislike, Post, Comment
-from .forms import OfferingCreateForm, CommentForm
+from .forms import PostCreateForm, CommentForm
 
 
 class HomePageView(LoginRequiredMixin, ListView):
@@ -51,7 +52,7 @@ class PostDetailView(DetailView):
     template_name = 'posts/post_detail.html'
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(SuccessMessageMixin, UpdateView):
     model = Post
     template_name = 'posts/post_update.html'
     fields = ['title', 'body']
@@ -59,38 +60,31 @@ class PostUpdateView(UpdateView):
     success_message = "Uspješno!"
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(SuccessMessageMixin, DeleteView):
     model = Post
     template_name = 'posts/post_delete.html'
     success_url = reverse_lazy('posts:home')
     success_message = "Obrisano!"
 
 
-class OfferingCreateView(LoginRequiredMixin, CreateView):
-    form_class = OfferingCreateForm
+class PostCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    form_class = PostCreateForm
     template_name = 'posts/post_new.html'
     success_url = reverse_lazy('posts:home')
     success_message = "Uspješno!"
     
     def form_valid(self, form):
         form.instance.author= self.request.user
-        form.instance.offering = True
+        offering = self.request.GET.get('offering', '')
+        looking = self.request.GET.get('looking', '')
+        if looking:
+            form.instance.looking = True
+        elif offering:
+            form.instance.offering = True
         return super().form_valid(form)
 
 
-class LookingCreateView(LoginRequiredMixin, CreateView):
-    form_class = OfferingCreateForm
-    template_name = 'posts/post_new.html'
-    success_url = reverse_lazy('posts:home')
-    success_message = "Uspješno!"
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        form.instance.looking = True
-        return super().form_valid(form)
-
-
-class AddCommentView(LoginRequiredMixin, CreateView):
+class AddCommentView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'posts/add_comment.html'

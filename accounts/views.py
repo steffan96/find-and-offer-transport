@@ -3,7 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, UpdateView
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, LoginForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import CustomUser
@@ -18,13 +18,28 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+from django.contrib.auth.views import LogoutView
+from django.contrib import messages
+
 
 
 class LoginFormView(SuccessMessageMixin, LoginView):
     template_name = 'registration/login.html'
     success_url = reverse_lazy('posts:home')
     success_message = "Dobrodošli!"
+    form_class = LoginForm
 
+    def form_valid(self, form):
+        remember_me = form.cleaned_data['remember_me']
+        if not remember_me:
+           self.request.session.set_expiry(0)
+           self.request.session.modified = True
+        try:
+            just_logged_out = request.session.get('just_logged_out',False)
+        except:
+            just_logged_out = False
+        return super(LoginFormView, self).form_valid(form)
+	
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = CustomUserChangeForm
@@ -74,7 +89,11 @@ class SignUpView(SuccessMessageMixin, CreateView):
     success_message = "Uspješno ste kreirali profil!"
 
     def form_valid(self, form):
-        to = super().form_valid(form)
+        validator = super().form_valid(form)
         user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
         login (self.request, user)
-        return to
+        return validator
+
+
+
+	

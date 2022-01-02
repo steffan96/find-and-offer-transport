@@ -188,3 +188,16 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 
 
+try:
+    from django.contrib.messages import constants as messages
+    MESSAGE_TAGS = {
+        messages.DEBUG: 'message is-info',
+        messages.INFO: 'message is-info',
+        messages.SUCCESS: 'message is-success',
+        messages.WARNING: 'message is-warning',
+        messages.ERROR: 'message is-danger',
+    }
+except Exception as e:
+    pass
+
+

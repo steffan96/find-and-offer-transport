@@ -7,11 +7,9 @@
 
     
   <div class="section">
-    <div class="container">
 <div class="title">Kreiraj objavu</div>
-   </div>
   </div>
-</div>
+
 
 
 <div class="is-flex is-justify-content-left is-align-content-center ml-6">
@@ -39,6 +37,16 @@
           name="{{ form.body.html_name }}"
              ></textarea>
           {{ form.body.errors }}
+          <div class="control m-1">
+              <label class="checkbox">
+              <input name='looking' type="checkbox">
+                Tražim
+              </label>
+              <label class="checkbox">
+              <input name='offering' type="checkbox">
+                Nudim
+              </label>
+            </div>
         </div>
     <div class="field m-3 is-justify-content-center">
           <p class="control">

@@ -7,7 +7,6 @@
 
 {% block content %}
    
-   
   
   
 <div class="is-flex-direction-column" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
@@ -18,7 +17,7 @@
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-48x48">
-                        <img src='/media/profile_pics/{{request.user.image}}' 
+                        <img src='/media/profile_pics/{{obj.author.image}}' 
                         class="is-rounded">
                     </figure>
                 </div>
@@ -150,4 +149,5 @@
     </span>
 </div>
 {% endif %}
+
 {% endblock %}

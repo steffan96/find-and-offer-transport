@@ -2,6 +2,7 @@
 <html lang="en">
 {% load static %}
 
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,13 +16,16 @@
  style="border-radius: 0 !important; -moz-border-radius: 0 !important;">
  
     <div class="navbar-brand" style="margin-top: 2px;">
-      <a href="{% url 'posts:home' %}" class="button is-primary m-1" 
-      style="align-self: center;">Početna</a>
+      <a href="{% url 'posts:home' %}">
+      <figure class="image is-96x96">
+                        <img src='/media/logo.png' 
+                        class="is-rounded">
+                    </figure></a>
      <div class="navbar-item center">
       <form method="GET">
         
         <div class="control m-1 is-inline-block">
-            <input name='searched' class="input" size="30" style="text-align: center;" 
+            <input name='searched' class="input" size="30" 
             type="text" placeholder="Ime grada/opštine">
             </div>
 
@@ -52,18 +56,52 @@
         <span></span>
       </span>
     </div>
-    <div id='navbarMenu' class="navbar-menu">
-      <div class="navbar-end" style="margin-top: 5px;">
-        <a href="{% url 'posts:looking_new' %}" 
-        class="button is-link" style="margin-right: 5px; margin-left: 5px;">Tražim prijevoz</a>
-        <a href="{% url 'posts:offering_new' %}" 
-        class="button is-link" style="margin-right: 5px;">Nudim prijevoz</a>
-        <a href="{% url 'accounts:my_profile' request.user.pk %}" 
-        class="button is-primary" style="margin-right: 5px; align-self: center;">Profil</a>
-        <a style="margin-right: 5px; align-self: center;" href="{% url 'logout' %}" class="button is-danger">Odjavi se</a>
-      </div>
-    </div>
+    <div id='navbarMenu' class="navbar-menu" style="background-color: hsl(0, 0%, 21%);">
+      <div class="navbar-end" style="margin-right: 5px; ">
+        
 
+       
+  
+    
+      
+        <figure class="image is-64x64" style="align-self: center;">
+          <img style="border-radius: 50%" 
+          src="/media/profile_pics/{{request.user.image}}" alt=""></figure>
+        <div class="dropdown">
+        <div class="dropdown-trigger">
+
+          <p aria-haspopup="true" aria-controls="dropdown-menu3"  
+          style="align-self: start; margin-top: 30px; margin-left: 5px; display: inline-block;">
+            <span>&#9660;</span></p>
+            
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          
+            <div class="dropdown-item" style="left: -42%; top: 8;">
+              <a href="{% url 'accounts:my_profile' request.user.pk %}" 
+              class="button is-primary dropdown-item" 
+              style="margin-right: 5px; align-self: center;">Profil</a>
+            </div>
+            <div class="dropdown-item">
+              <a style="margin-right: 5px; align-self: center; left: -50%; top: 8;"
+              href="{% url 'logout' %}" class="button is-danger dropdown-item">Odjavi se</a>
+            </div>
+            <div class="dropdown-item" style="left: -42%; top: 8;">
+              <a href="{% url 'posts:post_create' %}" 
+              class="button is-primary dropdown-item" 
+              style="margin-right: 5px; align-self: center;">Objavi</a>
+            </div>
+        </div>
+     
+    
+    
+</div>
+        
+        
+      </div>
+      
+    </div>
+    
  </nav>
 
   {% else %}
@@ -84,18 +122,20 @@
     </div>
   </nav>
     {% endif %}
-    {% include 'messages.html' %}
+   {% include 'messages.html' %}
 </head>
 
 <body>
   
   {% block content %}
-  
+      
+
   {% endblock %}
 
 
 
   <script type="text/javascript">
+    // burger menu
     (function() {
       var burger = document.querySelector('.burger');
       var navbarMenu = document.querySelector('#'+burger.dataset.target);
@@ -105,6 +145,12 @@
         navbarMenu.classList.toggle('is-active');
       });
     })();
+    // dropdown is-active on click
+    var dropdown = document.querySelector('.dropdown');
+    dropdown.addEventListener('click', function(event) {
+    event.stopPropagation();
+    dropdown.classList.toggle('is-active');
+});
   </script>
 </body>
 

@@ -1,16 +1,14 @@
-import django
-from django.db.models import expressions, fields
 from django.forms import ModelForm
 from django.forms.widgets import CheckboxSelectMultiple
 from .models import Post, Comment
 from django import forms
-import django_filters
 
 
-class OfferingCreateForm(ModelForm):
+
+class PostCreateForm(ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'body')
+        fields = ('title', 'body', 'looking', 'offering')
         
         error_messages={
                 'title':{

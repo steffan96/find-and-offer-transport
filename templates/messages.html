@@ -1,11 +1,8 @@
-{% if messages %}
-  {% for message in messages %}
-    <article class="message.tags" id='messageID'>
-  <div class="message-header">
-    {{ message }}
-    <button class="delete" aria-label="delete"></button>
-  </div>
- 
-</article>
- {% endfor %}
-{% endif %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} notification" role="alert">
+    <button type="button" class="delete" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <p style="color: black;">{{ message }} </p>
+</div>
+{% endfor %}    
