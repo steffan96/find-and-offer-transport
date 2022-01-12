@@ -14,7 +14,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(verbose_name='first_name', max_length=40)
     last_name = models.CharField(verbose_name='last_name', max_length=40)
     city = models.CharField(verbose_name='city', max_length=60)
-    country = models.CharField(verbose_name='country', max_length=40, null=True, blank=True)
     date_joined = models.DateTimeField(verbose_name='joined', auto_now_add=True)
     last_seen = models.DateTimeField(verbose_name='last_seen', auto_now=True)
     is_staff = models.BooleanField(default=False)

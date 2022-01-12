@@ -9,8 +9,14 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
     ordering = ('email',)
-    list_display = ['first_name', 'last_name', 'email', 'city', 'country', 'image']
+    fieldsets = (
+         ('Personal info', {'fields': ('email', 'password')}),
+        
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+    )
+    list_display = ['first_name', 'last_name', 'email', 'city', 'image']
     readonly_fields = ("date_joined",)
+    exclude = ('username',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
 

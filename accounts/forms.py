@@ -29,13 +29,13 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'email', 'city', 'country',)
-        exclude = ('password', 'image', 'email')
+        fields = ('first_name', 'last_name', 'email', 'city',)
+        exclude = ('username', 'password', 'image', 'email')
         labels = {
             'first_name': 'Ime',
             'last_name': 'Prezime',
             'city': 'Grad',
-            'country': 'Država',
+            
         }
 
 class LoginForm(AuthenticationForm):

@@ -46,19 +46,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+ 
 
      # 3rd Party
     "crispy_forms",  
     'bulma',
-    'social_django',
     'django_filters',
+    'social_django',
+
+   
+
     
     #local  
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
 ]
 
-
+SITE_ID = 1
 
 
 
@@ -85,8 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+               
             ],
         },
     },
@@ -170,15 +173,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-    'accounts.utils.EmailBackend'
-]
-
-# google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_SEC_KEY')
 
 # conf for no username required
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -186,6 +180,19 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+#social-auth
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = env('FB_APP_ID')
+SOCIAL_AUTH_FACEBOOK_SECRET = env('FB_APP_SEC')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_SEC_KEY')
 
 
 try:

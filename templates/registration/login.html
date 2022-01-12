@@ -7,6 +7,12 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
 
 {% block title %} <title>Prijavi se</title> {% endblock %}
 {% block content %}
+
+
+  
+
+
+
 <div class="is-flex is-justify-content-center is-align-content-center">
   <div class="login-container">
     <div class="field m-3">
@@ -39,7 +45,17 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
       </form>
     </div>
   </div>
+ 
+  
+      
+        <a style="align-self: end;" href="{% url 'social:begin' 'google-oauth2' %}">
+          <img src="/media/google.png" alt=""></a>
+   
+
 </div>
+
+
+
 
 {% endblock %}
 <!--{% include 'messages.html' %}-->

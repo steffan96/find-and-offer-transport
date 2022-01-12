@@ -96,7 +96,9 @@
                 
                 
                 {% if obj.comments.all %}
+                <hr>
                 <p class="title is-4 mt-2 ml-2">Komentari</p>
+                <hr>
                 {% endif %}
                 {% for comment in obj.comments.all %}
                 <article class="content">
@@ -113,6 +115,7 @@
       </p>
                     </div>
                 </article>
+                <hr>
                 {% endfor %}
             </footer>
             </div>
