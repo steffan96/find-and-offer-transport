@@ -24,9 +24,13 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
           <p class="control has-icons-left has-icons-right"></p>
           <input class="input" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}"
             type="{{field.widget_type}}" />
-          {{ field.errors }}
         </div>
-
+        {% for error in form.non_field_errors %}
+            
+            {{ error }}
+            <br>
+        {% endfor %}
+            <br>
         {% endfor %}
 
 
@@ -38,7 +42,7 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
             <input name='remember_me' type="checkbox">
             Upamti me
             <br>
-            <a href="{% url 'password_reset' %}">Zaboravljena šifra?</a>
+            <a href="{% url 'password_reset' %}">Zaboravljena lozinka?</a>
             
           </p>
         </div>

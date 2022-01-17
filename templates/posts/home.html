@@ -28,7 +28,7 @@
                         <a onMouseOver="this.style.color='hsl(171, 100%, 41%)'" 
                         onMouseOut="this.style.color='#000000'"
                         id='title' style="text-decoration: none; color: black;"
-                        href="{% url 'posts:post_detail' obj.pk %}"> {{ obj.title }}</a>
+                        href="{% url 'posts:post_detail' obj.slug %}"> {{ obj.title }}</a>
                     </p>
                     <p class="subtitle is-6" style="overflow-wrap: break-word; white-space: wrap;">
                         {{obj.author.first_name}}&nbsp;{{obj.author.last_name}}:&nbsp;{{obj.author.city}}
@@ -45,9 +45,9 @@
                 
                 <div class="is-pulled-right	">
                     {% if request.user == obj.author %}
-                    <a href="{% url 'posts:post_update' obj.pk %}" 
+                    <a href="{% url 'posts:post_update' obj.slug %}" 
                     class="button is-primary is-small">Promijeni</a>
-                    <a href="{% url 'posts:post_delete' obj.pk %}" 
+                    <a href="{% url 'posts:post_delete' obj.slug %}" 
                     class="button is-primary is-small">Obriši</a>
                     {% else %}
                     {% if user not in obj.users_liked.all %}

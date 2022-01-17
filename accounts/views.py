@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate
@@ -23,23 +24,15 @@ from django.contrib import messages
 
 
 
-class LoginFormView(SuccessMessageMixin, LoginView):
-    template_name = 'registration/login.html'
-    success_url = reverse_lazy('posts:home')
-    success_message = "Dobrodošli!"
-    form_class = LoginForm
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    if request.POST and form.is_valid():
+        user = form.login(request)
+        if user:
+            login(request, user)
+            return redirect('posts:home')
+    return render(request, 'login.html', {'form':form})
 
-    def form_valid(self, form):
-        remember_me = form.cleaned_data['remember_me']
-        if not remember_me:
-           self.request.session.set_expiry(0)
-           self.request.session.modified = True
-        try:
-            just_logged_out = request.session.get('just_logged_out',False)
-        except:
-            just_logged_out = False
-        return super(LoginFormView, self).form_valid(form)
-	
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = CustomUserChangeForm
@@ -89,6 +82,7 @@ class SignUpView(SuccessMessageMixin, CreateView):
     success_message = "Uspješno ste kreirali profil!"
 
     def form_valid(self, form):
+
         validator = super().form_valid(form)
         user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
         login (self.request, user)

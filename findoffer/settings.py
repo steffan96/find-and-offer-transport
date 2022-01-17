@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'bulma',
     'django_filters',
     'social_django',
+    
 
    
 
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     #local  
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
+    'chat.apps.ChatConfig',
 ]
 
 SITE_ID = 1
@@ -171,6 +173,8 @@ LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
@@ -208,3 +212,4 @@ except Exception as e:
     pass
 
 
+HASHID_FIELD_SALT = "b'\xc4\rm#P!RG\xb7\xba\xb0y#\x19;\xa5'"

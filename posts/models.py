@@ -1,7 +1,11 @@
+from random import random
+import uuid
 from django.db import models
 from django.db.models.fields import BooleanField, related
 from django.db.models.fields.related import ForeignKey
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 from accounts.models import CustomUser
 from django import forms
 
@@ -23,6 +27,13 @@ class Post(models.Model):
     likes = models.SmallIntegerField(default=0)
     users_liked = models.ManyToManyField(CustomUser, related_name='users_liked', blank=True)
     is_deleted = models.BooleanField(default=False)
+    slug = models.SlugField(_("Slug"), max_length=255, unique=True)
+
+    def save(self, *args, **kwargs):
+      if not self.slug:
+        random_slug = uuid.uuid4()
+        self.slug = slugify(random_slug)
+      super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url_offering(self):
         return reverse('posts:post_detail', args=[str(self.pk)])

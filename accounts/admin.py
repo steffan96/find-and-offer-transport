@@ -8,9 +8,9 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    ordering = ('email',)
+    ordering = ('-date_joined',)
     fieldsets = (
-         ('Personal info', {'fields': ('email', 'password')}),
+         ('Personal info', {'fields': ('email', 'password',)}),
         
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
     )
