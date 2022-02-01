@@ -1,8 +1,8 @@
-from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import CreateView, UpdateView
 from .forms import CustomUserCreationForm, CustomUserChangeForm, LoginForm
 from django.contrib.messages.views import SuccessMessageMixin
@@ -11,7 +11,7 @@ from .models import CustomUser
 
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, request
+from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -19,8 +19,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from django.contrib.auth.views import LogoutView
-from django.contrib import messages
+
 
 
 
@@ -38,7 +37,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = CustomUserChangeForm
     model = CustomUser
     success_url = reverse_lazy('posts:home')
-    template_name = 'profile.html'
+    template_name = 'accounts/profile.html'
     success_message = "Uspješno ste ažurirali profil!"
     
     
@@ -65,7 +64,8 @@ def password_reset_request(request):
 					email = render_to_string(email_template_name, c)
 					try:
                         
-						send_mail(subject, email, 'admin@example.com' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'admin@example.com' , 
+						[user.email], fail_silently=False)
 					except BadHeaderError:
                         
 						return HttpResponse('Invalid header found.')
@@ -82,12 +82,13 @@ class SignUpView(SuccessMessageMixin, CreateView):
     success_message = "Uspješno ste kreirali profil!"
 
     def form_valid(self, form):
-
         validator = super().form_valid(form)
         user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
         login (self.request, user)
         return validator
 
 
-
-	
+class UpdatePassword(PasswordChangeView):
+	form_class = PasswordChangeForm
+	success_url = reverse_lazy('posts:home')
+	template_name = 'accounts/password.html'

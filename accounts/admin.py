@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('-date_joined',)
     fieldsets = (
          ('Personal info', {'fields': ('email', 'password',)}),
-        
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
     )
     list_display = ['first_name', 'last_name', 'email', 'city', 'image']

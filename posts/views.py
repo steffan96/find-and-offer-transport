@@ -15,7 +15,7 @@ from .forms import PostCreateForm, CommentForm
 
 class HomePageView(LoginRequiredMixin, ListView):
     model = Post
-    paginate_by = 5
+    paginate_by = 4
     template_name = 'posts/home.html'
     
     

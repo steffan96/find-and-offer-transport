@@ -9,9 +9,11 @@
    
   
   
-<div class="is-flex-direction-column" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
+<div class="is-flex-direction-column" 
+style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
+    
     {% for obj in object_list %}
-    <div class="card mt-6" style="grid-column: 3/7;">
+    <div class="card mt-6" style="grid-column: 3/8;">
 
         <div class="card-content ">
             <div class="media">
@@ -32,6 +34,7 @@
                     </p>
                     <p class="subtitle is-6" style="overflow-wrap: break-word; white-space: wrap;">
                         {{obj.author.first_name}}&nbsp;{{obj.author.last_name}}:&nbsp;{{obj.author.city}}
+                        <a href="{% url 'chat:chat' obj.author.id %}">aasadsda</a>
                     </p>
                 </div>
                 

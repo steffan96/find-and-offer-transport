@@ -49,3 +49,4 @@ class LoginForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
         user = authenticate(email=email, password=password)
         return user
+

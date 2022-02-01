@@ -212,4 +212,3 @@ except Exception as e:
     pass
 
 
-HASHID_FIELD_SALT = "b'\xc4\rm#P!RG\xb7\xba\xb0y#\x19;\xa5'"

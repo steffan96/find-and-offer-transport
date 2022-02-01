@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="is-flex-direction-column" 
+style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
+  <div class="card mt-6" style="grid-column: 2/8;">
+  <p class="m-3" style="font-size: large;">Razgovor</p>
+  <hr>
+  {% for m in all_messages %}
+    
+   <div class="m-3" style="border:0.5px solid slategray; 
+    background-color: #FFFAF0; display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
+      <div style="padding: 10px; grid-column: 1/3;" class="is-flex">
+        <figure class="is-pulled-left image is-64x64 is-inline-block">
+          <img src="/media/profile_pics/{{m.sender.image}}" 
+          class="is-rounded">
+        </figure>
+        <p class="is-pulled-right is-inline-block" style="padding-left: 5px;">{{ m.sender.first_name }} {{ m.sender.last_name }}</p>
+      </div>
+      {% if m.sender == request.user %}
+      <div style="padding: 15px; background-color: #F0F8FF;
+      padding-top: 8px; overflow-wrap: break-word; grid-column: 4/9;">
+
+      {% else %}
+      <div style="padding: 15px; background-color: #DCDCDC;
+      padding-top: 8px; overflow-wrap: break-word; grid-column: 4/9;">
+      {% endif %}
+        <p style="text-align: start;">{{ m.body }}</p>
+        <p>{{m.created|date:'d.m.Y. H:i'}}</p>
+      </div>
+      
+    </div>
+    
+  {% endfor %}
+    <br>
+    <br>
+    <div class="card-footer m-3" style="margin-top: 5px; margin-bottom: 5px;">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="field">
+          {% for field in form %}
+            <div class="field m-1">
+              <textarea class="textarea is-medium" name="{{ field.html_name }}" 
+              type="{{field.widget_type}}"placeholder="Unesite poruku" 
+              onfocus="placeHolder()" rows="3" cols="66"></textarea>
+              {{ field.errors }}
+            </div>
+          {% endfor %}
+        <button type="submit" class="button is-primary m-1">Potvrdi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

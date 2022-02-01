@@ -7,8 +7,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from accounts.models import CustomUser
-from django import forms
-
 
 class SoftDeleteManager(models.Manager):
   def get_queryset(self):
@@ -25,7 +23,8 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     likes = models.SmallIntegerField(default=0)
-    users_liked = models.ManyToManyField(CustomUser, related_name='users_liked', blank=True)
+    users_liked = models.ManyToManyField(CustomUser, 
+    related_name='users_liked', blank=True)
     is_deleted = models.BooleanField(default=False)
     slug = models.SlugField(_("Slug"), max_length=255, unique=True)
 
