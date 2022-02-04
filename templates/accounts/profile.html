@@ -23,17 +23,21 @@
 
 
         <div style="grid-column: 1;">
-        <aside class="menu">
-            <p class="menu-label ml-3">
-            Menu
-            </p>
-            <ul class="menu-list">
-            <li><a href="{% url 'accounts:my_profile' request.user.slug %}"
-                >Osnovni podaci</a></li>
-            <li><a href="{% url 'accounts:change_password' %}">Sigurnost</a></li>
-            </ul>
-           
-        </aside>
+            <aside class="menu">
+                <p class="menu-label ml-3">
+                Menu
+                </p>
+                <ul class="menu-list">
+                <li>
+                    <a href="{% url 'accounts:my_profile' request.user.slug %}">
+                        Osnovni podaci</a>
+                </li>
+                <li><a href="{% url 'accounts:change_password' %}">Sigurnost</a></li>
+                <li>
+                    <a href="{% url 'chat:inbox' request.user.id %}">Inbox (  )</a>
+                </li>
+                </ul>      
+            </aside>
         </div>
 
 

@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 from django.utils.text import slugify
 from accounts.models import CustomUser
 
@@ -31,7 +32,10 @@ class Message(models.Model):
   body = models.TextField()
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
+  seen = models.BooleanField(default=False)
   
   class Meta:
         ordering = ['-created']
 
+  def __str__(self):
+      return f"{self.chat}: message nr: {self.pk}"

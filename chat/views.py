@@ -23,6 +23,14 @@ def chat(request, receiver):
         chat = ChatBox.objects.create(user1=request.user, user2=chat_receiver)
       all_messages = Message.objects.filter(chat=chat).all()
 
+      # seen functionality
+      msg = Message.objects.filter(chat=chat).first() # get the last message sent
+      if msg.sender != request.user:
+        each_message = Message.objects.filter(Q(chat=chat) & ~Q(sender=request.user)).all()
+        for m in each_message:
+          m.seen = True
+          m.save()
+
     # send message
     elif request.method == 'POST':
       form = MessageForm(request.POST or None)
