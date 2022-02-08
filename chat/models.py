@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from django.utils.text import slugify
@@ -21,14 +22,22 @@ class ChatBox(models.Model):
         self.slug = slugify(random_slug)
       super(ChatBox, self).save(*args, **kwargs)
 
+    @property
+    def inbox_count(self):
+      return self.message_set.filter(seen=False).count()
+
     def __str__(self):
         return f"{self.user1.first_name} {self.user1.last_name} \
         and {self.user2.first_name} {self.user2.last_name} chat"
 
+    
 
 class Message(models.Model):
-  chat = models.ForeignKey(ChatBox, on_delete=models.CASCADE, related_name='related_chat')
-  sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sender')
+  chat = models.ForeignKey(ChatBox, on_delete=models.CASCADE)
+  sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, 
+  related_name='sender')
+  receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, 
+  related_name='receiver')
   body = models.TextField()
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)

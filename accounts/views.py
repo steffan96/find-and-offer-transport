@@ -1,15 +1,4 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.forms import PasswordChangeForm
-from django.views.generic import CreateView, UpdateView
-from .forms import CustomUserCreationForm, CustomUserChangeForm, LoginForm
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import CustomUser
-from chat.models import ChatBox, Message
-
+# reset_email 
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -21,8 +10,18 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 
-
-
+#regular imports
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.views.generic import CreateView, UpdateView
+from .forms import CustomUserCreationForm, CustomUserChangeForm, LoginForm
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import CustomUser
+from chat.models import ChatBox, Message
 
 
 def login_view(request):
@@ -41,12 +40,16 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('posts:home')
     template_name = 'accounts/profile.html'
     success_message = "Uspješno ste ažurirali profil!"
-    
-    def inbox(self):
-        inbox_count = Message.objects.filter(~Q(sender=self.request.user), Q(chat__user1=self.request.user) | \
-        Q(chat__user2=self.request.user), Q(seen=False)).count()
-        return inbox_count
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # get the number of unseen messages
+        context['inbox_count'] = Message.objects.filter(
+        ~Q(sender=self.request.user), Q(seen=False), 
+        (Q(chat__user1=self.request.user) |\
+        Q(chat__user2=self.request.user))).count()
+        return context
       
     
 def password_reset_request(request):
@@ -80,7 +83,8 @@ def password_reset_request(request):
     
                     return redirect ("/password_reset/done/")
     password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="password_reset.html", context={"password_reset_form":password_reset_form})
+    return render(request=request, template_name="password_reset.html", 
+    context={"password_reset_form":password_reset_form})
 
 
 class SignUpView(SuccessMessageMixin, CreateView):
@@ -91,7 +95,8 @@ class SignUpView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         validator = super().form_valid(form)
-        user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
+        user = authenticate(email=form.cleaned_data['email'], 
+        password=form.cleaned_data['password1'])
         login (self.request, user)
         return validator
 
@@ -100,3 +105,13 @@ class UpdatePassword(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('posts:home')
     template_name = 'accounts/password.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # get the number of unseen messages
+        context['inbox_count'] = Message.objects.filter(
+        ~Q(sender=self.request.user), Q(seen=False), 
+        (Q(chat__user1=self.request.user) |\
+        Q(chat__user2=self.request.user))).count()
+        return context

@@ -5,7 +5,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (DetailView, CreateView, 
                          UpdateView, DeleteView, ListView)
-
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import MultipleObjectMixin
@@ -38,13 +37,6 @@ class HomePageView(LoginRequiredMixin, ListView):
             object_list = self.model.objects.filter(
             author__city__icontains=searched).order_by(*ordering)
         return object_list
-
-        
-    
-    
-    
-    
-        
 
 
 class PostDetailView(DetailView):
@@ -107,23 +99,21 @@ def like_dislike(request, post_id, user_preference):
 
         if user_preference == 1:
             eachpost.likes += 1
-            
-            
             eachpost.users_liked.add(request.user)
             eachpost.save()
             new_obj.save()
             return redirect('posts:home')
-
+            
         elif user_preference == 2:
             eachpost.likes -= 1
-            
             eachpost.users_liked.remove(request.user)
             new_obj.save()
             eachpost.save()
             return redirect('posts:home')
 
     except LikeDislike.DoesNotExist:
-        new_obj = LikeDislike(user=request.user, post=eachpost, value=user_preference)
+        new_obj = LikeDislike(user=request.user, post=eachpost, 
+        value=user_preference)
         
         if user_preference == 1:
             eachpost.likes += 1

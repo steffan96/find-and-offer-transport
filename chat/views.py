@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from .models import ChatBox, Message
 from accounts.models import CustomUser
 from .forms import MessageForm
@@ -25,13 +26,18 @@ def chat(request, receiver):
 
       # seen functionality
       msg = Message.objects.filter(chat=chat).first() # get the last message sent
-      if msg.sender != request.user:
-        each_message = Message.objects.filter(Q(chat=chat) & ~Q(sender=request.user)).all()
-        for m in each_message:
-          m.seen = True
-          m.save()
+      try:
+        if msg.sender != request.user:
+          each_message = Message.objects.filter(Q(chat=chat) & 
+          ~Q(sender=request.user)).all()
+          for m in each_message:
+            m.seen = True
+            m.save()
+      except:
+        pass
 
     # send message
+    
     elif request.method == 'POST':
       form = MessageForm(request.POST or None)
       chat1 = ChatBox.objects.filter(Q(user1=request.user, user2=chat_receiver) \
@@ -41,6 +47,7 @@ def chat(request, receiver):
         new_message = form.save(commit=False)
         new_message.chat = chat1
         new_message.sender = request.user
+        new_message.receiver = chat_receiver
         new_message.save()
         return redirect('posts:home')
     
@@ -57,7 +64,18 @@ class InboxView(LoginRequiredMixin, ListView):
   template_name = 'chat/inbox.html'
 
   def get_queryset(self):
+    # getting all chats for a request.user
     object_list = ChatBox.objects.filter(Q(user1=self.request.user) \
     | Q(user2=self.request.user)).all()
-    
     return object_list
+  
+  def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        # get the number of unseen messages
+        context['pk'] = pk
+        return context
+  
+
+
+  

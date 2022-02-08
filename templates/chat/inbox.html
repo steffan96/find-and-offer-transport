@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
     <title>Inbox</title>
 {% block content %}
 
@@ -26,18 +27,18 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
 
           {% endif %}
           
-        ({{ obj.related_chat.all|length }})</b></p>
+        (&nbsp;{% unseen_count pk obj.pk %}&nbsp;)</b></p>
       </div>
       <div style="padding: 10px; grid-column: 4/8;">
         <p style="max-width: 30ch; overflow:hidden; overflow-wrap: break-word; 
         text-overflow: ellipsis; white-space: nowrap;">
-        {{ obj.related_chat.first.body }}</p>
+        {{ obj.message_set.first.body }}</p>
       </div>
       
       <div style="padding: 15px; background-color: #DCDCDC;
       padding-top: 8px; overflow-wrap: break-word; grid-column: 8/9;">
          <p style="justify-content: flex-end;">
-         {{obj.related_chat.first.created|date:'d.m.Y. H:i'}}h</p>
+         {{obj.message_set.first.created|date:'d.m.Y. H:i'}}</p>
       </div>
     
     
