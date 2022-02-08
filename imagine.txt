@@ -1,3 +1,0 @@
-
-heroicon
-django-debug-toolbar
