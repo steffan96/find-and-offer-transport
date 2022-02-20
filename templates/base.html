@@ -12,7 +12,8 @@
 
 
   {% if user.is_authenticated %}
-  <nav class="navbar is-dark" style="border-radius: 0 !important; -moz-border-radius: 0 !important;">
+  <nav class="navbar is-dark" style="border-radius: 0 !important; 
+                  -moz-border-radius: 0 !important;">
 
     <div class="navbar-brand" style="margin-top: 2px;">
       <a href="{% url 'posts:home' %}">
@@ -24,7 +25,8 @@
         <form method="GET">
 
           <div class="control m-1 is-inline-block">
-            <input name='searched' class="input" size="30" type="text" placeholder="Ime grada/opštine">
+            <input name='searched' class="input" size="30" type="text" 
+                          placeholder="Ime grada/opštine">
           </div>
 
           
@@ -55,7 +57,8 @@
         <span></span>
       </span>
     </div>
-    <div id='navbarMenu' class="navbar-menu" style="background-color: hsl(0, 0%, 21%);">
+    <div id='navbarMenu' class="navbar-menu" 
+      style="background-color: hsl(0, 0%, 21%);">
       
       <div class="navbar-end" style="margin-right: 5px; ">
           <div class="navbar-item">
@@ -71,20 +74,11 @@
           class="button is-danger is-outlined">Odjavi se</a>
         </div>
           </div>
-
-
-
       </div>
-
-
-
-  
-
   </nav>
 
   {% else %}
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -94,7 +88,6 @@
           <a class="button is-primary" href="{% url 'login' %}">
             Prijavi se
           </a>
-
         </div>
       </div>
     </div>
@@ -102,15 +95,10 @@
   {% endif %}
   {% include 'messages.html' %}
 </head>
-
 <body>
 
   {% block content %}
-
-
   {% endblock %}
-
-
 
   <script type="text/javascript">
     // burger menu

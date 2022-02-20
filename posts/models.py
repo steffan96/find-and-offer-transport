@@ -65,7 +65,8 @@ class LikeDislike(models.Model):
 
 
 class Comment(models.Model):
-  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, 
+                                    null=True, blank=True)
   post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
   body = models.TextField()
   created = models.DateTimeField(auto_now_add=True)

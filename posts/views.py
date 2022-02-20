@@ -1,13 +1,10 @@
-from django.db.models import fields
-from django.core.paginator import Paginator
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (DetailView, CreateView, 
                          UpdateView, DeleteView, ListView)
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.list import MultipleObjectMixin
 from .models import LikeDislike, Post, Comment
 from .forms import PostCreateForm, CommentForm
 
@@ -16,7 +13,6 @@ class HomePageView(LoginRequiredMixin, ListView):
     model = Post
     paginate_by = 4
     template_name = 'posts/home.html'
-    
     
     def get_queryset(self):
         ordering = ['-updated', '-created']

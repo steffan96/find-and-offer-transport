@@ -25,5 +25,6 @@ urlpatterns = [
     path('', include('posts.urls', namespace='posts')),
     path('users/', include('django.contrib.auth.urls')),
     path('users/', include('accounts.urls', namespace='accounts')),
-    path('', include('social_django.urls', namespace='social'))
+    path('', include('social_django.urls', namespace='social')),
+    #path('api/v1/', include('api.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

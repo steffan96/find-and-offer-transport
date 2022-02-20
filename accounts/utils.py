@@ -25,7 +25,8 @@ def save_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = random_hex + f_ext
     picture_path = os.path.join(BASE_DIR, 'media/profile_pics', picture_name)
-    small_picture_path = os.path.join(BASE_DIR, 'media/small_profile_pics', picture_name)
+    small_picture_path = os.path.join(
+        BASE_DIR, 'media/small_profile_pics', picture_name)
     
     small_output_size = (70,61)
     i = Image.open(form_picture)

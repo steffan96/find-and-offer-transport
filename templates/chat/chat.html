@@ -18,22 +18,22 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
           <img src="/media/profile_pics/{{m.sender.image}}" 
           class="is-rounded">
         </figure>
-        <p class="is-pulled-right is-inline-block" style="padding-left: 5px;">{{ m.sender.first_name }} {{ m.sender.last_name }}</p>
+        <p class="is-pulled-right is-inline-block" 
+        style="padding-left: 5px;">{{ m.sender.first_name }} 
+                                {{ m.sender.last_name }}</p>
       </div>
       {% if m.sender == request.user %}
       <div style="padding: 15px; background-color: #F0F8FF;
-      padding-top: 8px; overflow-wrap: break-word; grid-column: 4/9;">
+      padding-top: 8px; overflow-wrap: break-word; grid-column: 6/9;">
 
       {% else %}
       <div style="padding: 15px; background-color: #DCDCDC;
-      padding-top: 8px; overflow-wrap: break-word; grid-column: 4/9;">
+      padding-top: 8px; overflow-wrap: break-word; grid-column: 6/9;">
       {% endif %}
         <p style="text-align: start;">{{ m.body }}</p>
         <p>{{m.created|date:'d.m.Y. H:i'}}</p>
       </div>
-      
     </div>
-    
   {% endfor %}
     <br>
     <br>

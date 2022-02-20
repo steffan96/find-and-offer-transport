@@ -53,15 +53,13 @@ INSTALLED_APPS = [
     'bulma',
     'django_filters',
     'social_django',
-    
-
-   
-
+    'rest_framework',
     
     #local  
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
     'chat.apps.ChatConfig',
+    'api.apps.ApiConfig',
 ]
 
 SITE_ID = 1
@@ -211,4 +209,8 @@ try:
 except Exception as e:
     pass
 
+REST_FRAMEWORK = {
+'DEFAULT_PERMISSION_CLASSES': [
+'rest_framework.permissions.AllowAny',]
+}
 

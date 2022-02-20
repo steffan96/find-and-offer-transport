@@ -2,10 +2,7 @@
 
 {% block title %}
 {% endblock title %}
-
 {% block content %}
-
-
 
 <div class="section" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
     <div style="grid-column: 1;" 
@@ -20,8 +17,6 @@
 <div class="section">
     <div class="columns" style="display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;">
-
-
         <div style="grid-column: 1;">
             <aside class="menu">
                 <p class="menu-label ml-3">
@@ -34,13 +29,12 @@
                 </li>
                 <li><a href="{% url 'accounts:change_password' %}">Sigurnost</a></li>
                 <li>
-                    <a href="{% url 'chat:inbox' request.user.id %}">Inbox ({{ inbox_count }})</a>
+                    <a href="{% url 'chat:inbox' request.user.id %}"
+                                    >Inbox ({{ inbox_count }})</a>
                 </li>
                 </ul>      
             </aside>
         </div>
-
-
         <div style="grid-column: 3/5;">
             <form id="control" method="post">
                 {% csrf_token %}
@@ -48,15 +42,15 @@
                 {% for field in form %}
                 {{ field.label_tag }}
 
-                    <div class="field m-3">
-                    <p class="control has-icons-left has-icons-right"></p>
-                    <input class="input" id="{{ field.id_for_label }}" 
-                    name="{{ field.html_name }}"
-                        type="{{field.widget_type}}" 
-                        {% if field.value != None and field.value != 'default.jpg' %}
-                        value="{{field.value}}"{% endif %}/>
-                    {{ field.errors }}
-                    </div>
+                <div class="field m-3">
+                <p class="control has-icons-left has-icons-right"></p>
+                <input class="input" id="{{ field.id_for_label }}" 
+                name="{{ field.html_name }}"
+                    type="{{field.widget_type}}" 
+                    {% if field.value != None and field.value != 'default.jpg' %}
+                    value="{{field.value}}"{% endif %}/>
+                {{ field.errors }}
+                </div>
                 {% endfor %}
                 <br>
                 <div class="field m-3">

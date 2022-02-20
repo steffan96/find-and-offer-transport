@@ -8,16 +8,12 @@
 <p>{{ post.body|linebreaks }}</p>
 <hr>
 <h2>Comments</h2>
-
 <br>
 <h1>Add comment</h1>
-
 <a href="{% url 'posts:add_comment' post.id %}" 
 class="button is-primary">Dodaj komentar</a>
  <br>
-
 {% if not post.comments.all %}
-
     NO COMMENTS YET
 {% else %}
 

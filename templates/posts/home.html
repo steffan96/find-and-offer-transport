@@ -12,146 +12,124 @@
 <div class="is-flex-direction-column" 
 style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
     
-    {% for obj in object_list %}
-    <div class="card mt-6" style="grid-column: 3/8;">
+{% for obj in object_list %}
+<div class="card mt-6" style="grid-column: 3/8;">
 
-        <div class="card-content ">
-            <div class="media">
-                <div class="media-left">
-                    <figure class="image is-48x48">
-                        <img src='/media/profile_pics/{{obj.author.image}}' 
-                        class="is-rounded">
-                    </figure>
-                </div>
-                
-                <div class="media-content">
-                    <p class="title is-4" style="font-size: large; white-space:wrap; 
-         overflow-wrap: break-word;">
-                        <a onMouseOver="this.style.color='hsl(171, 100%, 41%)'" 
-                        onMouseOut="this.style.color='#000000'"
-                        id='title' style="text-decoration: none; color: black;"
-                        href="{% url 'posts:post_detail' obj.slug %}"> {{ obj.title }}</a>
-                    </p>
-                    <p class="subtitle is-6" style="overflow-wrap: break-word; white-space: wrap;">
-                        {{obj.author.first_name}}&nbsp;{{obj.author.last_name}}:&nbsp;{{obj.author.city}}
-                        <a href="{% url 'chat:chat' obj.author.id %}">aasadsda</a>
-                    </p>
-                </div>
-                
+    <div class="card-content ">
+        <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                    <img src='/media/profile_pics/{{obj.author.image}}' 
+                    class="is-rounded">
+                </figure>
             </div>
-            
-            <hr>
-            <div class="content">
-                <p style="white-space:wrap; overflow-wrap: break-word; color: black;">{{obj.body}}</p>
-
-                <br>
-                
-                <div class="is-pulled-right	">
-                    {% if request.user == obj.author %}
+            <div class="media-content">
+                <p class="title is-4" style="font-size: large; white-space:wrap; 
+                                        overflow-wrap: break-word;">
+                    <a onMouseOver="this.style.color='hsl(171, 100%, 41%)'" 
+                    onMouseOut="this.style.color='#000000'"
+                    id='title' style="text-decoration: none; color: black;"
+                    href="#">{{ obj.title }}</a>
+                </p>
+                <p class="subtitle is-6" 
+                style="overflow-wrap: break-word; white-space: wrap;">
+                    {{obj.author.first_name}}&nbsp;{{obj.author.last_name}}: 
+                                 &nbsp;{{obj.author.city}}
+                </p>
+                </div>
+                <div class="media-right">
+                    <a href="{% url 'chat:chat' obj.author.id %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                        class="image is-32x32" fill="none" viewBox="0 0 24 24" 
+                        stroke="currentColor"><path stroke-linecap="round" 
+                        stroke-linejoin="round" stroke-width="2"  
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 
+                        002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </svg>
+                    </a>
+                </div>
+        </div>
+        <hr>
+        <div class="content">
+            <p style="white-space:wrap; overflow-wrap: 
+            break-word; color: black;">{{obj.body}}</p>
+            <br>
+            <div class="is-pulled-right	">
+                {% if request.user == obj.author %}
                     <a href="{% url 'posts:post_update' obj.slug %}" 
                     class="button is-primary is-small">Promijeni</a>
                     <a href="{% url 'posts:post_delete' obj.slug %}" 
                     class="button is-primary is-small">Obriši</a>
-                    {% else %}
+                {% else %}
                     {% if user not in obj.users_liked.all %}
-                    <div class='like-form is-inline-block'>
-                    <a class="button is-primary is-small"
-                    href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=1 %}"
-                        >Like</a>
-
-                        <!-- <div class="ui grid">
-                           <div class="column">
-                                <div class="like-count{{obj.id}}"> {{obj.num_likes}}
-                                     </div>
-                            </div> 
-                            <div class="column">
-                                likes
-                            </div> 
-                        </div>-->
+                        <div class='like-form is-inline-block'>
+                        <a class="button is-primary is-small" 
+                        href="{% url 'posts:like_dislike' 
+                        post_id=obj.pk user_preference=1 %}">Like</a>
                     </div>
                     {% else %}
-                    <div class='like-form is-inline-block'>
-                    <a class="button is-danger is-small"
-                    href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=2 %}">Unlike</a>
-
-                        <!-- <div class="ui grid">
-                           <div class="column">
-                                <div class="like-count{{obj.id}}"> 
-                                    {{obj.num_likes}} </div>
-                            </div> 
-                            <div class="column">
-                                likes
-                            </div> 
-                        </div>-->
-                    </div>
+                        <div class='like-form is-inline-block'>
+                        <a class="button is-danger is-small"
+                        href="{% url 'posts:like_dislike' 
+                                post_id=obj.pk user_preference=2 %}">Unlike</a>
+                        </div>
                     {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            
-            <br>
-            <p>{{obj.created|date:"y-m-d" }}&nbsp;{{obj.created|time:"H:i"}}</p>
-            <footer>
-                <hr>
-                
-                    <a class="button is-primary is-small" 
-                    href="{% url 'posts:add_comment' obj.id %}">Dodaj komentar</a>
-                
-                
-                {% if obj.comments.all %}
-                <hr>
-                <p class="title is-4 mt-2 ml-2">Komentari</p>
-                <hr>
                 {% endif %}
-                {% for comment in obj.comments.all %}
-                <article class="content">
-                    <figure class="is-pulled-left image is-32x32">
-                        <img src="/media/profile_pics/{{comment.user.image}}" 
-                        class="is-rounded">
-                    </figure>
-                    <div class="media-content">
-                        <p>
-        {{obj.author.first_name}}&nbsp;{{obj.author.last_name}}
-        
-        <br>
-        <span>{{ comment.body }}</span>
-      </p>
-                    </div>
-                </article>
-                <hr>
-                {% endfor %}
-            </footer>
             </div>
         </div>
-    
-
-    {% endfor %}
-
+        <br>
+        <p>{{obj.created|date:"y-m-d" }}&nbsp;{{obj.created|time:"H:i"}}</p>
+        <footer>
+            <hr>
+                <a class="button is-primary is-small" 
+                href="{% url 'posts:add_comment' obj.id %}">Dodaj komentar</a>
+            {% if obj.comments.all %}
+            <hr>
+            <p class="title is-4 mt-2 ml-2">Komentari</p>
+            <hr>
+            {% endif %}
+            {% for comment in obj.comments.all %}
+            <article class="content">
+                <figure class="is-pulled-left image is-32x32">
+                    <img src="/media/profile_pics/{{comment.user.image}}" 
+                    class="is-rounded">
+                </figure>
+                <div class="media-content">
+                    <p>{{obj.author.first_name}}&nbsp;{{obj.author.last_name}}
+                        <br>
+                        <span>{{ comment.body }}</span>
+                    </p>
+                </div>
+            </article>
+            <hr>
+            {% endfor %}
+        </footer>
+    </div>
 </div>
-
-<br> <br>
-{% for contact in page_obj %}
-
-
 {% endfor %}
+</div>
+<br> <br>
 {% if page_obj %}
 <div class="pagination is-rounded" style="justify-content: center;">
     <span class="step-links">
         {% if page_obj.has_previous %}
         <a href="?page=1" class="pagination-link">
             <<</a>
-                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">
+                <a href="?page={{ page_obj.previous_page_number }}" 
+                                class="pagination-previous">
                     <</a>
-                        {% endif %}
+        {% endif %}
 
-                        <span class="pagination-ellipsis" style="font-weight: 500; color: black;">
-                            Stranica {{ page_obj.number }} od {{ page_obj.paginator.num_pages }}
-                        </span>
+        <span class="pagination-ellipsis" style="font-weight: 500; color: black;">
+            Stranica {{ page_obj.number }} od {{ page_obj.paginator.num_pages }}
+        </span>
 
-                        {% if page_obj.has_next %}
-                        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">></a>
-                        <a class="pagination-link" href="?page={{ page_obj.paginator.num_pages }}">>></a>
-                        {% endif %}
+        {% if page_obj.has_next %}
+        <a class="pagination-next" 
+            href="?page={{ page_obj.next_page_number }}">></a>
+        <a class="pagination-link" 
+            href="?page={{ page_obj.paginator.num_pages }}">>></a>
+        {% endif %}
     </span>
 </div>
 {% endif %}
