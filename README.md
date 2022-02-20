@@ -1,5 +1,7 @@
-Project that allow users to find and offer transport to each other
+After finishing my first project in Flask I’ve went to learn Django. After going through one tutorial and a Django for Beginners book, I ve decided to start working on my first project. The purpose of this project is to help users to find transportation from town A to town B offered also by other users. I ve got an idea for this since this kind of “app” exists on Facebook as a community page.
 
-Project is not yet finished, as I want to add tests and REST.
+I have implementated my own CustomUser so that I can have flexibility to adjust login as I wanted (users can login only via email, and are logged in right after registration). I ve decided to kick out ‘username’ field from the model since it does not make a lot of sense to me in this kind of a project. Users are able to create posts which will be presented on the home page. They also have an option to change/delete the posts created by themselves and to like/comment the posts created from other users. They are also able to change basic information (implemented an option to change as much fields they want), and to change or reset a password. Users are able to chat with each other (synchronously), to check inbox for new messages. Count of unseen messages is displayed for each chat that they have in their inbox, and all messages in each chat are distinguished by user that has sent it (there can’t be more than two users per one chat). This project is still in process as I want to cover everything with tests.
 
-The project is written for Serbo-Croatian users, since it was a task by itself to change labels, error messages etc. I plan to upload a version on English.
+I will also use this project to implement everything that I learn about DRF, on which I will focus in next few weeks.
+
+Also, as I was thinking to create asynchronous chat, I dived a bit into WebSockets, Channels and Docker, and got just some basic understanding of these.
