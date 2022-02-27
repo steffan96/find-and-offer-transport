@@ -2,27 +2,48 @@ from urllib import response
 from django.test import TestCase
 from django.urls import reverse
 from .models import CustomUser
-
+from .forms import LoginForm, CustomUserChangeForm, CustomUserCreationForm
 
 class TestUser(TestCase):
     def setUp(self):
-        self.credentials = {
-            'email': 'test@test.com',
-            'password': 'secret123'}
-        CustomUser.objects.create(email = 'test@test.com', password = 'secret123',
-                                first_name = 'firstName', last_name = 'lastName', 
-                                is_staff = 'True', slug = 'asdasd')
+        self.user = CustomUser.objects.create(email = 'test@test.com', 
+             first_name = 'firstName', 
+            last_name = 'lastName', is_staff = 'True', slug = 'asdasd')
+        self.user.set_password('secret123')
+        self.user.save()
+        self.client.login(email='test@test.com', password='secret123')
 
-    def test_login(self):
-        response = self.client.post('http://127.0.0.1:8000/users/login', 
-                                        follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, '/users/login/', 
-        status_code=301, 
-        target_status_code=200, fetch_redirect_response=True) 
 
-    def test_update_user(self):
+    def test_update_user_view(self):
         response = self.client.post(reverse('accounts:my_profile', 
         kwargs={'slug': 'asdasd'}), {'first_name': 'first', 'last_name': 'last', 
                                         'email': 'asd@asd.com', 'city': 'Tokio'})
-        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/posts/', status_code=302, 
+        target_status_code=200, fetch_redirect_response=True)
+    
+
+    def test_signup_view(self):
+        credentials = {
+            'email': 'test1@test.com',
+            'first_name': 'test1',
+            'last_name': 'user1',
+            'city': 'derventa',
+            'password1': '123secret',
+            'password2': '123secret'}
+        self.client.post('http://127.0.0.1:8000/users/logout/')
+        response = self.client.post('http://127.0.0.1:8000/users/signup/', 
+                    credentials, follow=True)
+       # self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, '/posts/', status_code=302, 
+        target_status_code=200, fetch_redirect_response=True)
+
+    def test_update_password_view(self):
+        credentials = {
+            'old_password': '123secret', 
+            'password1': '321secret', 
+            'password2': '321secret',
+        }
+        response = self.client.post('http://127.0.0.1:8000/users/change-password/', 
+                    credentials, follow=True)
+        self.assertRedirects(response, '/posts/', status_code=302, 
+        target_status_code=200)

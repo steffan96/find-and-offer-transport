@@ -29,8 +29,8 @@
                 </li>
                 <li><a href="{% url 'accounts:change_password' %}">Sigurnost</a></li>
                 <li>
-                    <a href="{% url 'chat:inbox' request.user.id %}"
-                                    >Inbox ({{ inbox_count }})</a>
+                    <a href="{% url 'chat:inbox' request.user.id %}">Inbox 
+                    {% if inbox.count >= 1 %}({{ inbox_count }}){% endif %}</a>
                 </li>
                 </ul>      
             </aside>

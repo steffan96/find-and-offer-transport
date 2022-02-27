@@ -13,13 +13,13 @@ from .views import (
 
 
 urlpatterns = [
-    path('<slug:slug>/delete/', PostDeleteView.as_view(), name='post_delete'),
-    path('<slug:slug>/update/', PostUpdateView.as_view(), name='post_update'),
+    path('delete/<slug:slug>/', PostDeleteView.as_view(), name='post_delete'),
+    path('update/<slug:slug>/', PostUpdateView.as_view(), name='post_update'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),
     path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
     path('', HomePageView.as_view(), name='home'),
     path('<int:post_id>/<int:user_preference>/', like_dislike, name='like_dislike'),
-    path('<int:pk>/comment/', AddCommentView.as_view(), name='add_comment'),
+    path('comment/<int:pk>/', AddCommentView.as_view(), name='add_comment'),
     
 ]
 

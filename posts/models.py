@@ -10,7 +10,7 @@ from accounts.models import CustomUser
 
 class SoftDeleteManager(models.Manager):
   def get_queryset(self):
-      return super().get_queryset().filter(is_deleted=False)
+      return super().get_queryset().filter(is_deleted=True)
 
 
 class Post(models.Model):
@@ -48,8 +48,8 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.author.first_name}: {self.title}"
     
-    objects = SoftDeleteManager()
-    all_objects = models.Manager()
+    all_objects = SoftDeleteManager()
+    objects = models.Manager()
 
 class LikeDislike(models.Model):
   user = ForeignKey(CustomUser, on_delete=models.CASCADE)

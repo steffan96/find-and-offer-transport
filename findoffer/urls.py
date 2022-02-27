@@ -15,6 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.schemas import get_schema_view
+from rest_framework.documentation import include_docs_urls
+
+
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -22,9 +27,16 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls', namespace='chat')),
-    path('', include('posts.urls', namespace='posts')),
+    path('posts/', include('posts.urls', namespace='posts')),
     path('users/', include('django.contrib.auth.urls')),
     path('users/', include('accounts.urls', namespace='accounts')),
-    path('', include('social_django.urls', namespace='social')),
-    #path('api/v1/', include('api.urls')),
+    path('social/', include('social_django.urls', namespace='social')),
+    path('api/', include('posts.api.urls', namespace='api')),
+    path('api/users/', include('accounts.api.urls', namespace='api_users')),
+    path('docs/', include_docs_urls(title='FindOffer')),
+    path('schema', get_schema_view(
+        title="FindOffer",
+        description="API for the FindOffer site",
+        version="1.0.0"
+    ), name='FindOfferAPI-schema'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

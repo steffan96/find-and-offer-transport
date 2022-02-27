@@ -23,13 +23,10 @@
       </a>
       <div class="navbar-item center">
         <form method="GET">
-
           <div class="control m-1 is-inline-block">
             <input name='searched' class="input" size="30" type="text" 
                           placeholder="Ime grada/opštine">
           </div>
-
-          
           <div class="control m-1">
             <label class="checkbox">
               <input name='looking' type="checkbox">
@@ -41,15 +38,9 @@
             </label>
             <input type="submit" class="button is-info m-0 is-small" 
             value="Pretraga" style="width: 50%;">
-
           </div>
-
         </form>
       </div>
-
-
-
-
 
       <span class="navbar-burger burger" data-target='navbarMenu'>
         <span></span>
@@ -57,19 +48,17 @@
         <span></span>
       </span>
     </div>
+
     <div id='navbarMenu' class="navbar-menu" 
       style="background-color: hsl(0, 0%, 21%);">
       
       <div class="navbar-end" style="margin-right: 5px; ">
           <div class="navbar-item">
         <div class="buttons">
-
         <a href="{% url 'posts:post_create' %}" 
         class="button is-primary is-outlined">Tražim/Nudim</a>
-        
         <a href="{% url 'accounts:my_profile' request.user.slug %}" 
         class="button is-primary is-outlined">Profil</a>
-
         <a href="{% url 'logout' %}"
           class="button is-danger is-outlined">Odjavi se</a>
         </div>
