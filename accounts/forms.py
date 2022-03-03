@@ -1,7 +1,6 @@
 import random
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from django import forms
-from django.forms import widgets
+from django.contrib.auth.forms import UserCreationForm
+
 from django.forms.models import ModelForm
 from django.utils.translation import gettext, gettext_lazy as _
 from django.contrib.auth import authenticate
@@ -19,11 +18,9 @@ class CustomUserCreationForm(UserCreationForm):
         }
         error_messages={
                 'password_mismatch':{
-                    _('Šifre se ne podudaraju'),
+                    _('Lozinke se ne podudaraju'),
                 },
-                'body':{
-                    'required': 'Popunite ovo polje.'
-                },
+                
             }
 
 
@@ -39,14 +36,5 @@ class CustomUserChangeForm(ModelForm):
             
         }
 
-class LoginForm(AuthenticationForm):
-    remember_me = forms.BooleanField(required=False)
-    email = forms.EmailField(max_length=255, required=True)
-    password = forms.CharField(widget=forms.PasswordInput, required=True)
-
-    def login(self, request):
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
-        user = authenticate(email=email, password=password)
-        return user
+    
 

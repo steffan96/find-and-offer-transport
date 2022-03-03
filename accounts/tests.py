@@ -2,7 +2,7 @@ from urllib import response
 from django.test import TestCase
 from django.urls import reverse
 from .models import CustomUser
-from .forms import LoginForm, CustomUserChangeForm, CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 
 class TestUser(TestCase):
     def setUp(self):
@@ -22,7 +22,7 @@ class TestUser(TestCase):
         target_status_code=200, fetch_redirect_response=True)
     
 
-    def test_signup_view(self):
+    def test_signup_view(self, request):
         credentials = {
             'email': 'test1@test.com',
             'first_name': 'test1',
@@ -37,7 +37,7 @@ class TestUser(TestCase):
         self.assertRedirects(response, '/posts/', status_code=302, 
         target_status_code=200, fetch_redirect_response=True)
 
-    def test_update_password_view(self):
+    def test_update_password_view(self, request):
         credentials = {
             'old_password': '123secret', 
             'password1': '321secret', 

@@ -14,7 +14,7 @@ from django.contrib.auth.models import UserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email', max_length=70, unique=True, 
-    error_messages={'unique': 'Korisnik sa ovom email adresom već postoji.'},)
+        error_messages={'unique': 'Korisnik sa ovom email adresom već postoji.'},)
     first_name = models.CharField(verbose_name='first_name', max_length=40)
     last_name = models.CharField(verbose_name='last_name', max_length=40)
     city = models.CharField(verbose_name='city', max_length=60)

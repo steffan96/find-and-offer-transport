@@ -1,1 +1,5 @@
-coverage run --source='.' manage.py test accounts
+
+
+
+
+# coverage run --source='.' manage.py test accounts

@@ -1,23 +1,15 @@
 {% extends 'base.html' %}
-<!--
-<a href="{% url 'social:begin' 'google-oauth2' %}" 
-class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
--->
-
 
 {% block title %} <title>Prijavi se</title> {% endblock %}
 {% block content %}
-
-
-  
-
-
 
 <div class="is-flex is-justify-content-center is-align-content-center">
   <div class="login-container">
     <div class="field m-3">
       <form method='post'>
         {% csrf_token %}
+        {{ form.non_field_errors }}
+        <br>
         {% for field in form %}
         {{ field.label_tag }}
           <div class="field m-3">
@@ -26,16 +18,14 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
                   maxlength="30" name="{{ field.html_name }}"
               type="{{field.widget_type}}" />
           </div>
-        {% for error in form.non_field_errors %}
-            {{ error }}
-            <br>
-        {% endfor %}
+        {{field.errors}}
+            
             <br>
         {% endfor %}
         <div class="field m-3 is-justify-content-center">
           <p class="control">
             <button class="button is-success">
-              Login
+              Prijavi se
             </button>
             <input name='remember_me' type="checkbox">
             Upamti me
@@ -50,4 +40,3 @@ class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
     <img src="/media/google.png" alt=""></a>
 </div>
 {% endblock %}
-

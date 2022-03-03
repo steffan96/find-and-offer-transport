@@ -64,7 +64,7 @@ class InboxView(LoginRequiredMixin, ListView):
   template_name = 'chat/inbox.html'
 
   def get_queryset(self):
-    # getting all chats for a request.user
+    # getting all chats for request.user
     object_list = ChatBox.objects.filter(Q(user1=self.request.user) \
     | Q(user2=self.request.user)).all()
     return object_list
@@ -72,7 +72,7 @@ class InboxView(LoginRequiredMixin, ListView):
   def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs['pk']
-        # get the number of unseen messages
+        # use 'pk' of a user to get the number of unseen messages
         context['pk'] = pk
         return context
   
