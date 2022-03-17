@@ -1,0 +1,25 @@
+on:
+  push:
+  
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
+
+jobs:
+  run-pytest:
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure Project
+        run: |
+          pip install -r requirements.txt
+          python manage.py makemigrations
+          python manage.py migrate
+      - name: Check PyTest
+        run: |
+          pytest
+          poetry run pytest
