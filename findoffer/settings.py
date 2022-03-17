@@ -111,17 +111,10 @@ WSGI_APPLICATION = 'findoffer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('POSTGRES_DB'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PW'),
-        'HOST': 'localhost',
-        'PORT': '',
-        'ATOMIC_REQUESTS': True,
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -199,10 +192,10 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
 )
 
-SOCIAL_AUTH_FACEBOOK_KEY = env('FB_APP_ID')
-SOCIAL_AUTH_FACEBOOK_SECRET = env('FB_APP_SEC')
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_SEC_KEY')
+#SOCIAL_AUTH_FACEBOOK_KEY = env('FB_APP_ID')
+#SOCIAL_AUTH_FACEBOOK_SECRET = env('FB_APP_SEC')
+#SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_SEC_KEY')
 
 
 try:
