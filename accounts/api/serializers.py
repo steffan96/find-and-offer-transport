@@ -1,4 +1,8 @@
 from rest_framework import serializers
+from rest_framework import status
+from django.core import exceptions
+from rest_framework.response import Response
+import django.contrib.auth.password_validation as validators
 from accounts.models import CustomUser
 
 
@@ -7,6 +11,18 @@ class RegisterCustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('email', 'first_name', 'last_name', 'city', 'password')
         extra_kwargs = {'password': {'write_only':True}}
+    
+    def validate(self, data):
+        user = CustomUser(**data)
+        password = data.pop('password', None)
+        try:
+            validators.validate_password(password=password, user=user) 
+        except exceptions.ValidationError as e:
+            errors = {}
+            errors['password'] = list(e.messages)
+            if errors:
+                raise serializers.ValidationError(errors)
+        return super(RegisterCustomUserSerializer, self).validate(data)
 
     def create(self, data):
         password = data.pop('password', None)
