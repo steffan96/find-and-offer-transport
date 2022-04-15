@@ -62,7 +62,7 @@ class PostCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = "Uspješno!"
     
     def form_valid(self, form):
-        form.instance.author= self.request.user
+        form.instance.author = self.request.user
         offering = self.request.GET.get('offering', '')
         looking = self.request.GET.get('looking', '')
         if looking:
