@@ -91,8 +91,6 @@ def password_reset_request(request):
     context={"password_reset_form":password_reset_form})
 
 
-
-
 class ChangePassword(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('posts:home')

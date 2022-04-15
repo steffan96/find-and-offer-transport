@@ -1,11 +1,11 @@
-from .views import PostList
+from .views import PostViewSet
 from rest_framework.routers import DefaultRouter
 
 
 app_name = 'api'
 
 router = DefaultRouter()
-router.register('', PostList, basename='post')
+router.register('', PostViewSet, basename='post')
 
 
 urlpatterns = router.urls

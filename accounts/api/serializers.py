@@ -50,14 +50,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('email', 'first_name', 'last_name', 'city')
     
-    def validate_email(self, value):
-        user = self.context['request'].user
-        if CustomUser.objects.exclude(
-            pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError({
-                "email": "Korisnik sa ovom email adresom već postoji."})
-        return value
-
+    
     def update(self, instance, validated_data):
         instance.email = validated_data['email']
         instance.first_name = validated_data['first_name']

@@ -3,17 +3,24 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.urls import reverse
 from django.db.models.fields import CharField, PositiveBigIntegerField
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.contrib.auth.models import UserManager
 
 
+alphanumeric = RegexValidator(r'^[a-zA-Z]*$', 'Only letters are allowed.')
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email', max_length=70, unique=True, 
-        error_messages={'unique': 'Korisnik sa ovom email adresom već postoji.'},)
-    first_name = models.CharField(verbose_name='first_name', max_length=40)
-    last_name = models.CharField(verbose_name='last_name', max_length=40)
-    city = models.CharField(verbose_name='city', max_length=60)
+        error_messages={'unique': 'Korisnik sa ovom email adresom već postoji.'},
+                                                    validators=[alphanumeric])
+    first_name = models.CharField(verbose_name='first_name', max_length=40,
+                                                    validators=[alphanumeric])
+    last_name = models.CharField(verbose_name='last_name', max_length=40,
+                                                    validators=[alphanumeric])
+    city = models.CharField(verbose_name='city', max_length=60,
+                                                    validators=[alphanumeric])
     date_joined = models.DateTimeField(verbose_name='joined', auto_now_add=True)
     last_seen = models.DateTimeField(verbose_name='last_seen', auto_now=True)
     is_staff = models.BooleanField(default=False)

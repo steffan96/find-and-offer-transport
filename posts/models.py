@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from accounts.models import CustomUser
 
+
 class SoftDeleteManager(models.Manager):
   def get_queryset(self):
       return super().get_queryset().filter(is_deleted=True)
@@ -50,6 +51,7 @@ class Post(models.Model):
     
     all_objects = SoftDeleteManager()
     objects = models.Manager()
+
 
 class LikeDislike(models.Model):
   user = ForeignKey(CustomUser, on_delete=models.CASCADE)
