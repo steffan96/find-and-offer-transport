@@ -9,7 +9,7 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
   <p class="m-3" style="font-size: large;">Inbox</p>
   <hr>
 {% for obj in object_list %}
-    {% if obj.message_set.count > 1 %}
+    {% if obj.message_set.count >= 1 %}
     <div class="m-3" style="border:0.5px solid slategray; 
     background-color: #FFFAF0; display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
@@ -17,11 +17,9 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
         <p class="is-inline-block" style="padding-left: 5px;">
                       Razgovor sa &nbsp;&nbsp;<b>
            {% if request.user == obj.user1 %}
-          <a href="{% url 'chat:chat' obj.user2.id %}">
-          {{ obj.user2.first_name }} {{ obj.user2.last_name }}</a>
+          <a href="{% url 'chat:chat' obj.user2.id %}">{{ obj.user2.first_name }} {{ obj.user2.last_name }}</a>
            {% elif request.user == obj.user2 %}
-            <a href="{% url 'chat:chat' obj.user1.id %}">
-          {{ obj.user1.first_name }} {{ obj.user1.last_name }}</a>
+            <a href="{% url 'chat:chat' obj.user1.id %}">{{ obj.user1.first_name }} {{ obj.user1.last_name }}</a>
           {% endif %}
         (&nbsp;{% unseen_count pk obj.pk %}&nbsp;)</b></p>
       </div>
@@ -32,8 +30,7 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
       </div>
       <div style="padding: 15px; background-color: #DCDCDC;
       padding-top: 8px; overflow-wrap: break-word; grid-column: 8/9;">
-         <p style="justify-content: flex-end;">
-         {{obj.message_set.first.created|date:'d.m.Y. H:i'}}</p>
+         <p style="justify-content: flex-end;">{{obj.message_set.first.created|date:'d.m.Y. H:i'}}</p>
       </div>
     </div>
     {% else %}
