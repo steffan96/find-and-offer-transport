@@ -11,7 +11,7 @@ from accounts.models import CustomUser
 
 class SoftDeleteManager(models.Manager):
   def get_queryset(self):
-      return super().get_queryset().filter(is_deleted=True)
+      return super().get_queryset().filter(is_deleted=False)
 
 
 class Post(models.Model):
@@ -27,7 +27,7 @@ class Post(models.Model):
     users_liked = models.ManyToManyField(CustomUser, 
     related_name='users_liked', blank=True)
     is_deleted = models.BooleanField(default=False)
-    slug = models.SlugField(_("Slug"), max_length=255, unique=True)
+    slug = models.SlugField(_("Slug"), max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
       if not self.slug:

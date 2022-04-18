@@ -1,8 +1,7 @@
 import uuid
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.urls import reverse
-from django.db.models.fields import CharField, PositiveBigIntegerField
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
@@ -11,40 +10,32 @@ from django.contrib.auth.models import UserManager, BaseUserManager
 
 alphanumeric = RegexValidator(r'^[a-zA-Z]*$', 'Dozvoljena su samo slova.')
 
-# class UserManager(BaseUserManager):
-    # def create_user(self, email, password=None, is_admin=False, is_staff=False, is_active=True):
-    #     if not email:
-    #         raise ValueError("Unesite email adresu.")
-    #     if not password:
-    #         raise ValueError("Unesite lozinku.")
+class CustomUserManager(BaseUserManager):
+    def _create_user(self, email, password, is_staff, is_superuser, **kwargs):
+        now = timezone.now()
+        if not email:
+            raise ValueError("Unesite email adresu.")
+        if not password:
+            raise ValueError("Unesite lozinku.")
 
+        email = self.normalize_email(email).lower()
+        user = self.model(
+            email=email,is_staff=is_staff, is_active=True,
+            is_superuser=is_superuser, last_login=now,date_joined=now, **kwargs
+        )
+        
+        user.set_password(password)  
+        user.staff = is_staff
+        user.save(using=self._db)
+        return user
+    
+    def create_user(self, email, password=None, **kwargs):
+        return self._create_user(email, password, False, False,
+                                 **kwargs)
 
-    #     user = self.model(
-    #         email=self.normalize_email(email)
-    #     )
-    #     user.set_password(password)  # change password to hash
-    #     user.admin = is_admin
-    #     user.staff = is_staff
-    #     user.active = is_active
-    #     user.save(using=self._db)
-    #     return user
-        
-    # def create_superuser(self, email, password=None, **extra_fields):
-    #     if not email:
-    #         raise ValueError("Unesite email adresu.")
-    #     if not password:
-    #         raise ValueError("Unesite lozinku.")
-        
-    #     REQUIRED_FIELDS = ['first_name', 'last_name', 'city', 'username']
-    #     user = self.model(
-    #         email=self.normalize_email(email)
-    #     )
-    #     user.set_password(password)
-    #     user.admin = True
-    #     user.staff = True
-    #     user.active = True
-    #     user.save(using=self._db)
-    #     return user
+    def create_superuser(self, email, password, **kwargs):
+        return self._create_user(email, password, True, True,
+                                 **kwargs)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):

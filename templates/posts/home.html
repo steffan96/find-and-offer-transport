@@ -64,14 +64,12 @@ style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;">
                     {% if user not in obj.users_liked.all %}
                         <div class='like-form is-inline-block'>
                         <a class="button is-primary is-small" 
-                        href="{% url 'posts:like_dislike' 
-                        post_id=obj.pk user_preference=1 %}">Like</a>
+                        href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=1 %}">Like</a>
                     </div>
                     {% else %}
                         <div class='like-form is-inline-block'>
                         <a class="button is-danger is-small"
-                        href="{% url 'posts:like_dislike' 
-                                post_id=obj.pk user_preference=2 %}">Unlike</a>
+                        href="{% url 'posts:like_dislike' post_id=obj.pk user_preference=2 %}">Unlike</a>
                         </div>
                     {% endif %}
                 {% endif %}
