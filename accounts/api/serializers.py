@@ -51,11 +51,11 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         fields = ('email', 'first_name', 'last_name', 'city')
     
     
-    def update(self, instance, validated_data):
-        instance.email = validated_data['email']
-        instance.first_name = validated_data['first_name']
-        instance.last_name = validated_data['last_name']
-        instance.city = validated_data['city']
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     instance.email = validated_data['email']
+    #     instance.first_name = validated_data['first_name']
+    #     instance.last_name = validated_data['last_name']
+    #     instance.city = validated_data['city']
+    #     instance.save()
+    #     return instance
 

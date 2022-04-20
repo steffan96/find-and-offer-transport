@@ -28,6 +28,13 @@ class UserUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated,]
     serializer_class = UpdateUserSerializer
 
+    def patch(self, request, pk):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data, 
+                            status=status.HTTP_202_ACCEPTED)
 
 
 class BlackListTokenView(APIView):
