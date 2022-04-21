@@ -39,8 +39,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+        request = serializer.context["request"]
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(author=request.user)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk):

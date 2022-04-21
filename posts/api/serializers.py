@@ -3,7 +3,12 @@ from posts.models import Post
 from accounts.models import CustomUser
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.HyperlinkedModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Post
-        fields = ("title", "body")
+        fields = ('author', "title", "body")
+
+    # def save(self, **kwargs):
+    #     user = self.context['request'].user

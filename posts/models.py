@@ -53,7 +53,7 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.author.first_name}: {self.title}"
+        return f"{self.id}: {self.title}"
 
     all_objects = SoftDeleteManager()
     objects = models.Manager()
