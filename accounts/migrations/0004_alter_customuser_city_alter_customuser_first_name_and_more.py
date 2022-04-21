@@ -7,23 +7,47 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_alter_customuser_managers'),
+        ("accounts", "0003_alter_customuser_managers"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customuser',
-            name='city',
-            field=models.CharField(max_length=60, validators=[django.core.validators.RegexValidator('^[a-zA-Z]*$', 'Dozvoljena su samo slova.')], verbose_name='city'),
+            model_name="customuser",
+            name="city",
+            field=models.CharField(
+                max_length=60,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        "^[a-zA-Z]*$", "Dozvoljena su samo slova."
+                    )
+                ],
+                verbose_name="city",
+            ),
         ),
         migrations.AlterField(
-            model_name='customuser',
-            name='first_name',
-            field=models.CharField(max_length=40, validators=[django.core.validators.RegexValidator('^[a-zA-Z]*$', 'Dozvoljena su samo slova.')], verbose_name='first_name'),
+            model_name="customuser",
+            name="first_name",
+            field=models.CharField(
+                max_length=40,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        "^[a-zA-Z]*$", "Dozvoljena su samo slova."
+                    )
+                ],
+                verbose_name="first_name",
+            ),
         ),
         migrations.AlterField(
-            model_name='customuser',
-            name='last_name',
-            field=models.CharField(max_length=40, validators=[django.core.validators.RegexValidator('^[a-zA-Z]*$', 'Dozvoljena su samo slova.')], verbose_name='last_name'),
+            model_name="customuser",
+            name="last_name",
+            field=models.CharField(
+                max_length=40,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        "^[a-zA-Z]*$", "Dozvoljena su samo slova."
+                    )
+                ],
+                verbose_name="last_name",
+            ),
         ),
     ]

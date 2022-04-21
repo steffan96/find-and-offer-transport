@@ -19,26 +19,29 @@ from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 
 
-
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('chat/', include('chat.urls', namespace='chat')),
-    path('posts/', include('posts.urls', namespace='posts')),
-    path('users/', include('django.contrib.auth.urls')),
-    path('user/', include('accounts.urls', namespace='accounts')),
-    path('social/', include('social_django.urls', namespace='social')),
-    path('api/posts/', include('posts.api.urls', namespace='api')),
-    path('api/users/', include('accounts.api.urls', namespace='api_users')),
-    path('api/password_reset/', include('django_rest_passwordreset.urls', 
-                                       namespace='password_reset')),
-    path('docs/', include_docs_urls(title='FindOffer')),
-    path('schema', get_schema_view(
-        title="FindOffer",
-        description="API for the FindOffer site",
-        version="1.0.0"
-    ), name='FindOfferAPI-schema'),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("chat/", include("chat.urls", namespace="chat")),
+    path("posts/", include("posts.urls", namespace="posts")),
+    path("users/", include("django.contrib.auth.urls")),
+    path("user/", include("accounts.urls", namespace="accounts")),
+    path("social/", include("social_django.urls", namespace="social")),
+    path("api/posts/", include("posts.api.urls", namespace="api")),
+    path("api/users/", include("accounts.api.urls", namespace="api_users")),
+    path(
+        "api/password_reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
+    path("docs/", include_docs_urls(title="FindOffer")),
+    path(
+        "schema",
+        get_schema_view(
+            title="FindOffer", description="API for the FindOffer site", version="1.0.0"
+        ),
+        name="FindOfferAPI-schema",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

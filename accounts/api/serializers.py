@@ -35,8 +35,8 @@ class RegisterCustomUserSerializer(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = CustomUser
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+    old_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
+    new_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
 
     def validate_new_password(self, value):
         validators.validate_password(value)

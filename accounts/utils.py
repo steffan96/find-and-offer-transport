@@ -8,6 +8,7 @@ from PIL import Image
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 class EmailBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         UserModel = get_user_model()
@@ -20,22 +21,24 @@ class EmailBackend(ModelBackend):
                 return user
         return None
 
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = random_hex + f_ext
-    picture_path = os.path.join(BASE_DIR, 'media/profile_pics', picture_name)
+    picture_path = os.path.join(BASE_DIR, "media/profile_pics", picture_name)
     small_picture_path = os.path.join(
-        BASE_DIR, 'media/small_profile_pics', picture_name)
-    
-    small_output_size = (70,61)
+        BASE_DIR, "media/small_profile_pics", picture_name
+    )
+
+    small_output_size = (70, 61)
     i = Image.open(form_picture)
     i.thumbnail(small_output_size)
     i.save(small_picture_path)
 
-    output_size = (125,111)
+    output_size = (125, 111)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
-    
+
     return picture_name

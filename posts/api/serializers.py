@@ -6,6 +6,4 @@ from accounts.models import CustomUser
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('title', 'body')
-
-
+        fields = ("title", "body")

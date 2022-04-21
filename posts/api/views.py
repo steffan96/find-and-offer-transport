@@ -9,7 +9,7 @@ from .serializers import PostSerializer
 
 
 class PostUserWritePermission(BasePermission):
-    message = 'Samo autor može da uređuje objavu.'
+    message = "Samo autor može da uređuje objavu."
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
@@ -25,7 +25,7 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [PostUserWritePermission]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    lookup_field = 'pk'
+    lookup_field = "pk"
     pagination_class = PostPagination
 
     def retrieve(self, request, pk):
@@ -41,25 +41,22 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(data=serializer.data, 
-                            status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk):
         item = self.get_object()
         serializer = self.get_serializer(item)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(data=serializer.data, 
-                            status=status.HTTP_202_ACCEPTED)
-    
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
     def patch(self, request, pk):
         item = self.get_object()
         serializer = self.get_serializer(item)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(data=serializer.data, 
-                            status=status.HTTP_202_ACCEPTED)
-    
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
     def destroy(self, request, pk):
         item = self.get_object()
         item.delete()
