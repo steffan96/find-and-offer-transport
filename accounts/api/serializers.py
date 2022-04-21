@@ -4,6 +4,8 @@ from django.core import exceptions
 from rest_framework.response import Response
 import django.contrib.auth.password_validation as validators
 from accounts.models import CustomUser
+from django.contrib.auth import password_validation
+from django.utils.translation import gettext_lazy as _
 
 
 class RegisterCustomUserSerializer(serializers.ModelSerializer):
@@ -35,13 +37,24 @@ class RegisterCustomUserSerializer(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = CustomUser
-    old_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
-    new_password = serializers.CharField(required=True, write_only=True, trim_whitespace=False)
+    old_password = serializers.CharField(required=True, write_only=True)
+    new_password = serializers.CharField(required=True, write_only=True, 
+                validators=[validators.validate_password])
 
-    def validate_new_password(self, value):
-        validators.validate_password(value)
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError(
+                _('Neispravna lozinka.')
+            )
         return value
 
+    def save(self, **kwargs):
+        password = self.validated_data['new_password']
+        user = self.context['request'].user
+        user.set_password(password)
+        user.save()
+        return user
 
 class UpdateUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
