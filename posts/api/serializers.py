@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from posts.models import Post
+from posts.models import Post, LikeDislike
 from accounts.models import CustomUser
 
 
@@ -10,5 +10,11 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         model = Post
         fields = ('author', "title", "body")
 
-    # def save(self, **kwargs):
-    #     user = self.context['request'].user
+
+class LikeDislikeSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    post = serializers.RelatedField(source='post', read_only=True)
+
+    class Meta:
+        model = LikeDislike
+        
