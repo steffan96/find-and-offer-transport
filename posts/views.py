@@ -8,6 +8,7 @@ from django.views.generic import (
     DeleteView,
     ListView,
 )
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import LikeDislike, Post, Comment
@@ -94,41 +95,34 @@ class AddCommentView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+
+
+
+
 @login_required
-def like_dislike(request, post_id, user_preference):
-    eachpost = get_object_or_404(Post, id=post_id)
-    new_obj = ""
-
+def like_dislike(request, post_id):
+    post = Post.objects.get(pk=post_id)
     try:
-        new_obj = LikeDislike.objects.get(user=request.user, post=eachpost)
-
-        if user_preference == 1:
-            eachpost.likes += 1
-            eachpost.users_liked.add(request.user)
-            eachpost.save()
-            new_obj.save()
+        like = LikeDislike.objects.get(user=request.user, post=post)
+        if like.value == 1:
+            like.value -= 1
+            post.likes -= 1
+            post.users_liked.remove(request.user)
+            like.save()
+            post.save()
             return redirect("posts:home")
-
-        elif user_preference == 2:
-            eachpost.likes -= 1
-            eachpost.users_liked.remove(request.user)
-            new_obj.save()
-            eachpost.save()
+        elif like.value == 0:
+            like.value += 1
+            post.likes += 1
+            post.users_liked.add(request.user)
+            like.save()
+            post.save()
             return redirect("posts:home")
-
-    except LikeDislike.DoesNotExist:
-        new_obj = LikeDislike(user=request.user, post=eachpost, value=user_preference)
-
-        if user_preference == 1:
-            eachpost.likes += 1
-            eachpost.users_liked.add(request.user)
-            eachpost.save()
-            new_obj.save()
-            return redirect("posts:home")
-
-        elif user_preference == 2:
-            eachpost.likes -= 1
-            eachpost.users_liked.remove(request.user)
-            eachpost.save()
-            new_obj.save()
-            return redirect("posts:home")
+    except:
+        new_like = LikeDislike(user=request.user, post=post, value=1)
+        post.likes += 1
+        post.users_liked.add(request.user)
+        post.save()
+        new_like.save()
+        return redirect("posts:home")
+    return HttpResponse('Greška! Molimo pokušajte ponovo.')

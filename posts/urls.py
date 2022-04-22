@@ -18,7 +18,7 @@ urlpatterns = [
     path("post_create/", PostCreateView.as_view(), name="post_create"),
     path("<slug:slug>/", PostDetailView.as_view(), name="post_detail"),
     path("", HomePageView.as_view(), name="home"),
-    path("<int:post_id>/<int:user_preference>/", like_dislike, name="like_dislike"),
+    path("like/<int:post_id>/", like_dislike, name="like_dislike"),
     path("comment/<int:pk>/", AddCommentView.as_view(), name="add_comment"),
 ]
 
