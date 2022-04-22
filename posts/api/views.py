@@ -5,9 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.response import Response
 from yaml import serialize
-from posts.models import Post, LikeDislike
-from accounts.models import CustomUser
-from .serializers import LikeDislikeSerializer, PostSerializer
+from posts.models import Post, LikeDislike, Comment
+from .serializers import CommentSerializer, LikeDislikeSerializer, PostSerializer
 
 
 class CustomPermission(BasePermission):
@@ -92,13 +91,27 @@ class LikeAPIView(generics.GenericAPIView):
                 post.save()
                 return Response(status=status.HTTP_202_ACCEPTED)
         except:
-            new_like = LikeDislike(user=request.user, post=post, value=1)
             post.likes += 1
             post.users_liked.add(request.user)
             post.save()
-            new_like.save()
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=request.user, post=post, value=1)
+            
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save(author=request.user)
+
+class CommentAPIView(generics.GenericAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        serializer = self.get_serializer(data=request.data)
+        request = serializer.context["request"]
+        post = Post.objects.get(pk=pk)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user, post=post)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        
+        
+        

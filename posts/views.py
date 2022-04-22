@@ -95,10 +95,6 @@ class AddCommentView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-
-
-
-
 @login_required
 def like_dislike(request, post_id):
     post = Post.objects.get(pk=post_id)
