@@ -17,4 +17,4 @@ class LikeDislikeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LikeDislike
-        
+        fields = ('value')
