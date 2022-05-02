@@ -1,7 +1,8 @@
 from django import template
-from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 from django.urls import reverse
+
 from accounts.models import CustomUser
 from chat.models import ChatBox, Message
 

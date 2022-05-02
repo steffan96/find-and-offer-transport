@@ -1,8 +1,10 @@
 from urllib import response
+
 from django.test import TestCase
 from django.urls import reverse
-from .models import CustomUser
+
 from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .models import CustomUser
 
 
 class TestUser(TestCase):

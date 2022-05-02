@@ -1,27 +1,25 @@
 # reset_email
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
-from django.contrib.auth.forms import PasswordResetForm
-from django.template.loader import render_to_string
-from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-
-# regular imports
-from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.forms import PasswordChangeForm
-from django.views.generic import CreateView, UpdateView
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import CustomUser
+from django.contrib.auth.tokens import default_token_generator
+# regular imports
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import BadHeaderError, send_mail
+from django.db.models.query_utils import Q
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.views.generic import CreateView, UpdateView
+
 from chat.models import ChatBox, Message
+
+from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .models import CustomUser
 
 
 class SignUpView(SuccessMessageMixin, CreateView):

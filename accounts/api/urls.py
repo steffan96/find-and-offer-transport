@@ -1,12 +1,9 @@
 from django.urls import path
-from .views import (
-    SignUpAPIView,
-    BlackListTokenView,
-    ChangePasswordAPIView,
-    UserUpdateAPIView,
-)
-from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
+from .views import (BlackListTokenView, ChangePasswordAPIView, SignUpAPIView,
+                    UserUpdateAPIView)
 
 app_name = "api_users"
 

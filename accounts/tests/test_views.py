@@ -1,10 +1,11 @@
-from django.contrib.auth import login
-from django import urls
-import pytest
-from django.urls import reverse
-from accounts.models import CustomUser
 import time
-from django.contrib.auth import authenticate
+
+import pytest
+from django import urls
+from django.contrib.auth import authenticate, login
+from django.urls import reverse
+
+from accounts.models import CustomUser
 
 
 @pytest.mark.django_db

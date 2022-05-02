@@ -11,7 +11,6 @@ router.register("", PostViewSet, basename="post")
 
 urlpatterns = router.urls
 urlpatterns += [
-    path('like/<int:pk>/', LikeAPIView.as_view(), name='like'),
-    path('comment/<int:pk>/', CommentAPIView.as_view(), name='comment')
+    path("like/<int:pk>/", LikeAPIView.as_view(), name="like"),
+    path("comment/<int:pk>/", CommentAPIView.as_view(), name="comment"),
 ]
-

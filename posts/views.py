@@ -121,4 +121,4 @@ def like_dislike(request, post_id):
         post.save()
         new_like.save()
         return redirect("posts:home")
-    return HttpResponse('Greška! Molimo pokušajte ponovo.')
+    return HttpResponse("Greška! Molimo pokušajte ponovo.")

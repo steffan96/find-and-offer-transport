@@ -1,10 +1,10 @@
 import os
 import secrets
 from pathlib import Path
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from PIL import Image
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

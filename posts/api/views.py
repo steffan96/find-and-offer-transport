@@ -76,28 +76,30 @@ class LikeAPIView(generics.GenericAPIView):
         
         try:
             like = LikeDislike.objects.get(user=request.user, post=post)
+            
             if like.value == 1:
                 like.value -= 1
                 post.likes -= 1
                 post.users_liked.remove(request.user)
                 like.save()
                 post.save()
-                return Response(status=status.HTTP_202_ACCEPTED)
+                return Response(status=status.HTTP_202_ACCEPTED, data={'value':like.value})
+
             elif like.value == 0:
                 like.value += 1
                 post.likes += 1
                 post.users_liked.add(request.user)
                 like.save()
                 post.save()
-                return Response(status=status.HTTP_202_ACCEPTED)
+                return Response(status=status.HTTP_202_ACCEPTED, data={'value':like.value})
         except:
             post.likes += 1
             post.users_liked.add(request.user)
             post.save()
             serializer.is_valid(raise_exception=True)
             serializer.save(user=request.user, post=post, value=1)
-            
             return Response(status=status.HTTP_201_CREATED)
+
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 

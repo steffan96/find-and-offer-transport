@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import chat, InboxView
+
+from .views import InboxView, chat
 
 urlpatterns = [
     path("chat/<int:receiver>", chat, name="chat"),

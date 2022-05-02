@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-from .models import ChatBox, Message
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import ListView
+
 from accounts.models import CustomUser
+
 from .forms import MessageForm
+from .models import ChatBox, Message
 
 
 @login_required
@@ -78,6 +78,6 @@ class InboxView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs["pk"]
-        # use 'pk' of a user to get the number of unseen messages
+        # use 'pk' of an user to get the number of unseen messages
         context["pk"] = pk
         return context

@@ -1,12 +1,12 @@
 import uuid
-from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db import models
-from django.core.validators import RegexValidator
-from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify
-from django.contrib.auth.models import UserManager, BaseUserManager
 
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin, UserManager)
+from django.core.validators import RegexValidator
+from django.db import models
+from django.utils import timezone
+from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 alphanumeric = RegexValidator(r"^[a-zA-Z]*$", "Dozvoljena su samo slova.")
 
