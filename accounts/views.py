@@ -1,12 +1,10 @@
-# reset_email
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-# regular imports
-from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError, send_mail
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.query_utils import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -16,10 +14,10 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView, UpdateView
 
-from chat.models import ChatBox, Message
-
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from chat.models import Message
 from .models import CustomUser
+from .forms import CustomUserChangeForm, CustomUserCreationForm
+
 
 
 class SignUpView(SuccessMessageMixin, CreateView):

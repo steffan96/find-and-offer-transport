@@ -1,5 +1,5 @@
 import uuid
-
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin, UserManager)
 from django.core.validators import RegexValidator
@@ -12,7 +12,7 @@ alphanumeric = RegexValidator(r"^[a-zA-Z]*$", "Dozvoljena su samo slova.")
 
 
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, password, is_staff, is_superuser, **kwargs):
+    def _create_user(self, email, password, password2, is_staff, is_superuser, **kwargs):
         now = timezone.now()
         if not email:
             raise ValueError("Unesite email adresu.")
@@ -35,11 +35,11 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **kwargs):
-        return self._create_user(email, password, False, False, **kwargs)
+    def create_user(self, email, password=None, password2=None, **kwargs):
+        return self._create_user(email, password, password2, False, False, **kwargs)
 
-    def create_superuser(self, email, password, **kwargs):
-        return self._create_user(email, password, True, True, **kwargs)
+    def create_superuser(self, email, password=None, password2=None, **kwargs):
+        return self._create_user(email, password, password2, True, True, **kwargs)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -56,7 +56,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name="last_name", max_length=40, validators=[alphanumeric]
     )
     city = models.CharField(
-        verbose_name="city", max_length=60, validators=[alphanumeric]
+        verbose_name="city", max_length=60, validators=[
+            RegexValidator(
+                regex='^[\w]+([-_\s]{1}[a-z]+)*$',
+                message='Molimo Vas koristite samo slova.'
+            )
+        ]
     )
     date_joined = models.DateTimeField(verbose_name="joined", auto_now_add=True)
     last_seen = models.DateTimeField(verbose_name="last_seen", auto_now=True)

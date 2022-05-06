@@ -11,28 +11,26 @@ from accounts.models import CustomUser
 class RegisterCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("email", "first_name", "last_name", "city", "password")
-        extra_kwargs = {"password": {"write_only": True}}
+        fields = ("email", "first_name", "last_name", "city", "password", "password2")
+        extra_kwargs = {"password": {"write_only": True}, "password2": {"write_only": True}}
 
-    def validate(self, data):
-        user = CustomUser(**data)
-        password = data.pop("password", None)
-        try:
-            validators.validate_password(password=password, user=user)
-        except exceptions.ValidationError as e:
-            errors = {}
-            errors["password"] = list(e.messages)
-            if errors:
-                raise serializers.ValidationError(errors)
-        return super(RegisterCustomUserSerializer, self).validate(data)
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
 
-    def create(self, data):
-        password = data.pop("password", None)
-        instance = self.Meta.model(**data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        return attrs
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create(
+        email=validated_data['email'],
+        first_name=validated_data['first_name'],
+        last_name=validated_data['last_name']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user
 
 
 class ChangePasswordSerializer(serializers.Serializer):
