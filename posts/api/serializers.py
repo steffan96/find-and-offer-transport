@@ -5,10 +5,10 @@ from posts.models import Post, LikeDislike, Comment
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
+    
     class Meta:
         model = Post
-        fields = ("author", "title", "body")
+        fields = ("author", "title", "body",)
 
 
 class LikeDislikeSerializer(serializers.ModelSerializer):

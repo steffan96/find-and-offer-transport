@@ -33,6 +33,22 @@ class RegisterCustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ("email", "first_name", "last_name", "city")
+
+    # def update(self, instance, validated_data):
+    #     instance.email = validated_data['email']
+    #     instance.first_name = validated_data['first_name']
+    #     instance.last_name = validated_data['last_name']
+    #     instance.city = validated_data['city']
+    #     instance.save()
+    #     return instance
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     model = CustomUser
     old_password = serializers.CharField(required=True, write_only=True)
@@ -53,18 +69,3 @@ class ChangePasswordSerializer(serializers.Serializer):
         user.save()
         return user
 
-
-class UpdateUserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
-
-    class Meta:
-        model = CustomUser
-        fields = ("email", "first_name", "last_name", "city")
-
-    # def update(self, instance, validated_data):
-    #     instance.email = validated_data['email']
-    #     instance.first_name = validated_data['first_name']
-    #     instance.last_name = validated_data['last_name']
-    #     instance.city = validated_data['city']
-    #     instance.save()
-    #     return instance

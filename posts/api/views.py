@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.response import Response
 from yaml import serialize
-from posts.models import Post, LikeDislike, Comment
+from posts.models import Post, LikeDislike
 from .serializers import CommentSerializer, LikeDislikeSerializer, PostSerializer
 
 

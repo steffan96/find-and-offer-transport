@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from posts.api.views import CustomPermission
 from accounts.models import CustomUser
-
 from .serializers import (ChangePasswordSerializer,
                           RegisterCustomUserSerializer, UpdateUserSerializer)
 
@@ -25,7 +25,7 @@ class SignUpAPIView(APIView):
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [
-        IsAuthenticated,
+        CustomPermission,
     ]
     serializer_class = UpdateUserSerializer
 
@@ -52,7 +52,7 @@ class BlackListTokenView(APIView):
 
 class ChangePasswordAPIView(generics.UpdateAPIView):
     serializer_class = ChangePasswordSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomPermission,)
 
     def update(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
